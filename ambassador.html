@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambasador | NO XCUSES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="navbar-inner">
+    <button class="nav-logo" onclick="logoClick()">NO XCUSES</button>
+    <div class="nav-links">
+      <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
+      <a href="ambassador.html" class="active" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Strona Główna</a>
+    <a href="configurator.html">Konfigurator</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ambassador.html">Ambasador</a>
+    <a href="contact.html">Kontakt</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
+  </div>
+</nav>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-header">
+      <p class="page-eyebrow">NO XCUSES</p>
+      <h1 class="page-title" id="ambTitle">ZOSTAŃ AMBASADOREM</h1>
+      <p class="page-sub" id="ambSub">Dołącz do programu ambasadorów NO XCUSES i zdobądź ekskluzywne korzyści.</p>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+        </div>
+        <h3 class="benefit-title" id="ben1Title">Zniżki</h3>
+        <p class="benefit-desc" id="ben1Desc">Ekskluzywne ceny na wszystkie produkty NO XCUSES.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3 class="benefit-title" id="ben2Title">Ekspozycja</h3>
+        <p class="benefit-desc" id="ben2Desc">Prezentujemy naszych ambasadorów w social media.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3 class="benefit-title" id="ben3Title">Pierwsze Wersje</h3>
+        <p class="benefit-desc" id="ben3Desc">Dostęp do nowych kolekcji przed premierą.</p>
+      </div>
+    </div>
+
+    <div class="form-wrapper">
+      <form id="ambForm">
+        <div class="form-group">
+          <label class="form-label" id="lAmbName">Imię i nazwisko</label>
+          <input class="form-input" type="text" name="name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lAmbEmail">E-mail</label>
+          <input class="form-input" type="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lAmbSocial">Link do Social Media</label>
+          <input class="form-input" type="text" name="social" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lAmbTeam">Drużyna / Klub</label>
+          <input class="form-input" type="text" name="team" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lAmbMsg">Wiadomość</label>
+          <textarea class="form-textarea" name="message" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="ambSubmit">APLIKUJ</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-logo">NO XCUSES</div>
+  <div class="footer-links">
+    <a href="index.html">Strona Główna</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="contact.html">Kontakt</a>
+  </div>
+  <p class="footer-copy">© 2025 NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br>Made by <a href="https://www.instagram.com/erikcoding/">ErikCoding</a></p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+document.getElementById('ambForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(this));
+  data.id = Date.now(); data.status = 'new'; data.created_at = new Date().toISOString();
+  const amb = JSON.parse(localStorage.getItem('nox_ambassadors') || '[]');
+  amb.unshift(data);
+  localStorage.setItem('nox_ambassadors', JSON.stringify(amb));
+  showToast(getLang() === 'pl' ? 'Dziękujemy za aplikację! Odezwiemy się wkrótce.' : 'Thank you for applying! We\'ll get back to you soon.');
+  this.reset();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NO XCUSES | Premium Custom Sportswear</title>
+  <meta name="description" content="NOXCUSES — Premium Custom Sportswear. Zaprojektuj własną odzież sportową najwyższej klasy." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <button class="nav-logo" id="logoBtn" onclick="logoClick()">NO XCUSES</button>
+    <div class="nav-links">
+      <a href="index.html" class="active" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+    <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
+    <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" alt="NOXCUSES sportswear" />
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Premium Custom Sportswear</p>
+    <h1 class="hero-title" id="heroTitle">ZWYCIĘSTWO NIE ZNA WYMÓWEK</h1>
+    <p class="hero-sub" id="heroSub">Zaprojektuj własną odzież sportową najwyższej klasy.</p>
+    <a href="configurator.html" class="btn-primary" id="heroCta">
+      ROZPOCZNIJ PROJEKT
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="container">
+    <h2 class="section-title" id="howTitle">JAK TO DZIAŁA</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><path d="M10 14 21 3"/><path d="M21 16v5H3V3h5"/></svg>
+        </div>
+        <h3 class="how-step-title" id="how1Title">01 — WYBIERZ</h3>
+        <p class="how-step-desc" id="how1Desc">Wybierz typ produktu, krój i materiał w naszym konfiguratorze.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+        </div>
+        <h3 class="how-step-title" id="how2Title">02 — ZAPROJEKTUJ</h3>
+        <p class="how-step-desc" id="how2Desc">Dodaj kolory, logo i branding — zrobimy resztę.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>
+        </div>
+        <h3 class="how-step-title" id="how3Title">03 — ZAMÓW</h3>
+        <p class="how-step-desc" id="how3Desc">Złóż zamówienie — dostarczymy je prosto do Ciebie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="container">
+    <h2 class="section-title" id="galleryTitle">NASZE REALIZACJE</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/1b9ec1ccb_generated_0de49808.png" alt="NOXCUSES 1" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/ffcb7bfd2_generated_e099dabf.png" alt="NOXCUSES 2" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/4e04a6548_generated_06a75e59.png" alt="NOXCUSES 3" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/413efdf92_generated_56c39984.png" alt="NOXCUSES 4" /></div>
+    </div>
+    <div class="gallery-more">
+      <a href="portfolio.html" id="galleryMore">Portfolio →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NO XCUSES</div>
+  <div class="footer-links">
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+  </div>
+  <p class="footer-copy">© 2025 NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br>Made by <a href="https://www.instagram.com/erikcoding/">ErikCoding</a></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

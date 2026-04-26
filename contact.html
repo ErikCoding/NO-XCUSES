@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt | NO XCUSES</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="navbar-inner">
+    <button class="nav-logo" onclick="logoClick()">NO XCUSES</button>
+    <div class="nav-links">
+      <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="contact.html" class="active" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Strona Główna</a>
+    <a href="configurator.html">Konfigurator</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="ambassador.html">Ambasador</a>
+    <a href="contact.html">Kontakt</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
+  </div>
+</nav>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-header">
+      <p class="page-eyebrow">NO XCUSES</p>
+      <h1 class="page-title" id="conTitle">KONTAKT</h1>
+      <p class="page-sub" id="conSub">Masz pytania? Napisz do nas.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div>
+        <form id="contactForm">
+          <div class="form-group">
+            <label class="form-label" id="lConName">Imię i nazwisko</label>
+            <input class="form-input" type="text" name="name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lConEmail">E-mail</label>
+            <input class="form-input" type="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lConSubject">Temat</label>
+            <input class="form-input" type="text" name="subject" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lConMsg">Wiadomość</label>
+            <textarea class="form-textarea" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="conSubmit">WYŚLIJ</button>
+        </form>
+      </div>
+
+      <div>
+        <h3 class="contact-info-title" id="conInfoTitle">DANE KONTAKTOWE</h3>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <p class="contact-item-label" id="lConEmailLabel">Email</p>
+            <a href="mailto:noxcuses.kontakt@gmail.com" class="contact-item-val">noxcuses.kontakt@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 5.92 5.92l1.85-1.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <p class="contact-item-label" id="lConPhoneLabel">Telefon</p>
+            <a href="tel:+48794100353" class="contact-item-val">+48 794 100 353</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-logo">NO XCUSES</div>
+  <div class="footer-links">
+    <a href="index.html">Strona Główna</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="contact.html">Kontakt</a>
+  </div>
+  <p class="footer-copy">© 2025 NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br>Made by <a href="https://www.instagram.com/erikcoding/">ErikCoding</a></p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(this));
+  data.id = Date.now(); data.status = 'new'; data.created_at = new Date().toISOString();
+  const contacts = JSON.parse(localStorage.getItem('nox_contacts') || '[]');
+  contacts.unshift(data);
+  localStorage.setItem('nox_contacts', JSON.stringify(contacts));
+  showToast(getLang() === 'pl' ? 'Wiadomość wysłana! Odpowiemy najszybciej jak to możliwe.' : 'Message sent! We\'ll reply as soon as possible.');
+  this.reset();
+});
+</script>
+</body>
+</html>
