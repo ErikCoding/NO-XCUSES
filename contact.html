@@ -3,23 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kontakt | NO XCUSES</title>
+
+  <!-- NEW: SEO -->
+  <title>Kontakt | NOXCUSES — Skontaktuj się z nami</title>
+  <meta name="description" content="Skontaktuj się z NOXCUSES. Odpowiemy na pytania o odzież sportową na zamówienie. Email: noxcuses.kontakt@gmail.com, Tel: +48 794 100 353." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://noxcuses.pl/contact.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kontakt | NOXCUSES" />
+  <meta property="og:description" content="Masz pytania o odzież sportową na zamówienie? Napisz do nas." />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<nav class="navbar scrolled" id="navbar">
+<nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Główna nawigacja">
   <div class="navbar-inner">
-    <button class="nav-logo" onclick="logoClick()">NO XCUSES</button>
+    <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NOXCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
       <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
       <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
-      <a href="contact.html" class="active" data-pl="Kontakt" data-en="Contact">Kontakt</a>
-      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+      <a href="contact.html" class="active" aria-current="page" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -33,85 +42,121 @@
   </div>
 </nav>
 
-<section class="page-section">
-  <div class="container">
-    <div class="page-header">
-      <p class="page-eyebrow">NO XCUSES</p>
-      <h1 class="page-title" id="conTitle">KONTAKT</h1>
-      <p class="page-sub" id="conSub">Masz pytania? Napisz do nas.</p>
-    </div>
+<main>
+  <section class="page-section" aria-labelledby="conTitle">
+    <div class="container">
+      <header class="page-header">
+        <p class="page-eyebrow">NOXCUSES</p>
+        <h1 class="page-title" id="conTitle">KONTAKT</h1>
+        <p class="page-sub" id="conSub">Masz pytania? Napisz do nas.</p>
+      </header>
 
-    <div class="contact-grid">
-      <div>
-        <form id="contactForm">
-          <div class="form-group">
-            <label class="form-label" id="lConName">Imię i nazwisko</label>
-            <input class="form-input" type="text" name="name" required />
+      <div class="contact-grid">
+        <div>
+          <!-- NEW: success state -->
+          <div id="conFormSuccess" class="form-success" style="display:none" role="alert">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <h3 id="conSuccessTitle">Wiadomość wysłana!</h3>
+            <p id="conSuccessMsg">Odpowiemy najszybciej jak to możliwe.</p>
           </div>
-          <div class="form-group">
-            <label class="form-label" id="lConEmail">E-mail</label>
-            <input class="form-input" type="email" name="email" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" id="lConSubject">Temat</label>
-            <input class="form-input" type="text" name="subject" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" id="lConMsg">Wiadomość</label>
-            <textarea class="form-textarea" name="message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn-submit" id="conSubmit">WYŚLIJ</button>
-        </form>
-      </div>
-
-      <div>
-        <h3 class="contact-info-title" id="conInfoTitle">DANE KONTAKTOWE</h3>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div>
-            <p class="contact-item-label" id="lConEmailLabel">Email</p>
-            <a href="mailto:noxcuses.kontakt@gmail.com" class="contact-item-val">noxcuses.kontakt@gmail.com</a>
-          </div>
+          <form id="contactForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="con-name" id="lConName">Imię i nazwisko</label>
+              <input class="form-input" type="text" id="con-name" name="name" autocomplete="name" required aria-required="true" />
+              <span class="form-error" id="err-con-name"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="con-email" id="lConEmail">E-mail</label>
+              <input class="form-input" type="email" id="con-email" name="email" autocomplete="email" required aria-required="true" />
+              <span class="form-error" id="err-con-email"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="con-subject" id="lConSubject">Temat</label>
+              <input class="form-input" type="text" id="con-subject" name="subject" required aria-required="true" />
+              <span class="form-error" id="err-con-subject"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="con-message" id="lConMsg">Wiadomość</label>
+              <textarea class="form-textarea" id="con-message" name="message" rows="5" required aria-required="true"></textarea>
+              <span class="form-error" id="err-con-message"></span>
+            </div>
+            <button type="submit" class="btn-submit" id="conSubmit">
+              <span class="btn-text">WYŚLIJ</span>
+              <span class="btn-loader" aria-hidden="true"></span>
+            </button>
+          </form>
         </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 5.92 5.92l1.85-1.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          </div>
-          <div>
-            <p class="contact-item-label" id="lConPhoneLabel">Telefon</p>
-            <a href="tel:+48794100353" class="contact-item-val">+48 794 100 353</a>
-          </div>
+
+        <div>
+          <h2 class="contact-info-title" id="conInfoTitle">DANE KONTAKTOWE</h2>
+          <address style="font-style:normal">
+            <div class="contact-item">
+              <div class="contact-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label" id="lConEmailLabel">Email</p>
+                <a href="mailto:noxcuses.kontakt@gmail.com" class="contact-item-val" rel="noopener">noxcuses.kontakt@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 5.92 5.92l1.85-1.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <p class="contact-item-label" id="lConPhoneLabel">Telefon</p>
+                <a href="tel:+48794100353" class="contact-item-val">+48 794 100 353</a>
+              </div>
+            </div>
+          </address>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
-<footer>
-  <div class="footer-logo">NO XCUSES</div>
-  <div class="footer-links">
+<footer role="contentinfo">
+  <div class="footer-logo">NOXCUSES</div>
+  <nav class="footer-links" aria-label="Nawigacja w stopce">
     <a href="index.html">Strona Główna</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="contact.html">Kontakt</a>
-  </div>
-  <p class="footer-copy">© 2025 NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br>Made by <a href="https://www.instagram.com/erikcoding/">ErikCoding</a></p>
+  </nav>
+  <p class="footer-copy">© <span id="footerYear">2025</span> NOXCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span></p>
 </footer>
 
 <script src="script.js"></script>
+<script src="firebase-config.js"></script>
 <script>
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const data = Object.fromEntries(new FormData(this));
-  data.id = Date.now(); data.status = 'new'; data.created_at = new Date().toISOString();
-  const contacts = JSON.parse(localStorage.getItem('nox_contacts') || '[]');
-  contacts.unshift(data);
-  localStorage.setItem('nox_contacts', JSON.stringify(contacts));
-  showToast(getLang() === 'pl' ? 'Wiadomość wysłana! Odpowiemy najszybciej jak to możliwe.' : 'Message sent! We\'ll reply as soon as possible.');
-  this.reset();
+  if (!validateForm(this)) return;
+
+  const btn = document.getElementById('conSubmit');
+  setLoading(btn, true);
+
+  const data = {
+    name: this.name.value.trim(),
+    email: this.email.value.trim(),
+    subject: this.subject.value.trim(),
+    message: this.message.value.trim(),
+    id: Date.now(), status: 'new', created_at: new Date().toISOString()
+  };
+
+  const saved = await saveToFirebase('contacts', data);
+  if (!saved) {
+    const contacts = JSON.parse(localStorage.getItem('nox_contacts') || '[]');
+    contacts.unshift(data);
+    localStorage.setItem('nox_contacts', JSON.stringify(contacts));
+  }
+
+  setLoading(btn, false);
+  this.style.display = 'none';
+  document.getElementById('conFormSuccess').style.display = 'flex';
 });
 </script>
 </body>

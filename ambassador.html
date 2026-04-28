@@ -3,23 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ambasador | NO XCUSES</title>
+
+  <!-- NEW: SEO -->
+  <title>Program Ambasadorski | NOXCUSES — Zostań Ambasadorem</title>
+  <meta name="description" content="Dołącz do programu ambasadorów NOXCUSES. Ekskluzywne zniżki, ekspozycja w social media i dostęp do nowych kolekcji przed premierą." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://noxcuses.pl/ambassador.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Zostań Ambasadorem | NOXCUSES" />
+  <meta property="og:description" content="Dołącz do programu ambasadorów NOXCUSES i zdobądź ekskluzywne korzyści." />
+  <meta property="og:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<nav class="navbar scrolled" id="navbar">
+<nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Główna nawigacja">
   <div class="navbar-inner">
-    <button class="nav-logo" onclick="logoClick()">NO XCUSES</button>
+    <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NOXCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
       <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
       <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
-      <a href="ambassador.html" class="active" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="ambassador.html" class="active" aria-current="page" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
-      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -33,89 +43,124 @@
   </div>
 </nav>
 
-<section class="page-section">
-  <div class="container">
-    <div class="page-header">
-      <p class="page-eyebrow">NO XCUSES</p>
-      <h1 class="page-title" id="ambTitle">ZOSTAŃ AMBASADOREM</h1>
-      <p class="page-sub" id="ambSub">Dołącz do programu ambasadorów NO XCUSES i zdobądź ekskluzywne korzyści.</p>
-    </div>
+<main>
+  <section class="page-section" aria-labelledby="ambTitle">
+    <div class="container">
+      <header class="page-header">
+        <p class="page-eyebrow">NOXCUSES</p>
+        <h1 class="page-title" id="ambTitle">ZOSTAŃ AMBASADOREM</h1>
+        <p class="page-sub" id="ambSub">Dołącz do programu ambasadorów NOXCUSES i zdobądź ekskluzywne korzyści.</p>
+      </header>
 
-    <div class="benefits-grid">
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-        </div>
-        <h3 class="benefit-title" id="ben1Title">Zniżki</h3>
-        <p class="benefit-desc" id="ben1Desc">Ekskluzywne ceny na wszystkie produkty NO XCUSES.</p>
+      <div class="benefits-grid">
+        <article class="benefit">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+          </div>
+          <h2 class="benefit-title" id="ben1Title">Zniżki</h2>
+          <p class="benefit-desc" id="ben1Desc">Ekskluzywne ceny na wszystkie produkty NOXCUSES.</p>
+        </article>
+        <article class="benefit">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h2 class="benefit-title" id="ben2Title">Ekspozycja</h2>
+          <p class="benefit-desc" id="ben2Desc">Prezentujemy naszych ambasadorów w social media.</p>
+        </article>
+        <article class="benefit">
+          <div class="benefit-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h2 class="benefit-title" id="ben3Title">Pierwsze Wersje</h2>
+          <p class="benefit-desc" id="ben3Desc">Dostęp do nowych kolekcji przed premierą.</p>
+        </article>
       </div>
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+
+      <div class="form-wrapper">
+        <!-- NEW: form states (loading, success) -->
+        <div id="ambFormSuccess" class="form-success" style="display:none" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <h3 id="ambSuccessTitle">Aplikacja wysłana!</h3>
+          <p id="ambSuccessMsg">Dziękujemy za aplikację! Odezwiemy się wkrótce.</p>
         </div>
-        <h3 class="benefit-title" id="ben2Title">Ekspozycja</h3>
-        <p class="benefit-desc" id="ben2Desc">Prezentujemy naszych ambasadorów w social media.</p>
-      </div>
-      <div class="benefit">
-        <div class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <h3 class="benefit-title" id="ben3Title">Pierwsze Wersje</h3>
-        <p class="benefit-desc" id="ben3Desc">Dostęp do nowych kolekcji przed premierą.</p>
+        <form id="ambForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="amb-name" id="lAmbName">Imię i nazwisko</label>
+            <input class="form-input" type="text" id="amb-name" name="name" autocomplete="name" required aria-required="true" />
+            <span class="form-error" id="err-amb-name"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="amb-email" id="lAmbEmail">E-mail</label>
+            <input class="form-input" type="email" id="amb-email" name="email" autocomplete="email" required aria-required="true" />
+            <span class="form-error" id="err-amb-email"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="amb-social" id="lAmbSocial">Link do Social Media</label>
+            <input class="form-input" type="url" id="amb-social" name="social" placeholder="https://instagram.com/..." required aria-required="true" />
+            <span class="form-error" id="err-amb-social"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="amb-team" id="lAmbTeam">Drużyna / Klub</label>
+            <input class="form-input" type="text" id="amb-team" name="team" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="amb-message" id="lAmbMsg">Wiadomość</label>
+            <textarea class="form-textarea" id="amb-message" name="message" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="ambSubmit">
+            <span class="btn-text">APLIKUJ</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
       </div>
     </div>
+  </section>
+</main>
 
-    <div class="form-wrapper">
-      <form id="ambForm">
-        <div class="form-group">
-          <label class="form-label" id="lAmbName">Imię i nazwisko</label>
-          <input class="form-input" type="text" name="name" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label" id="lAmbEmail">E-mail</label>
-          <input class="form-input" type="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label" id="lAmbSocial">Link do Social Media</label>
-          <input class="form-input" type="text" name="social" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label" id="lAmbTeam">Drużyna / Klub</label>
-          <input class="form-input" type="text" name="team" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" id="lAmbMsg">Wiadomość</label>
-          <textarea class="form-textarea" name="message" rows="4"></textarea>
-        </div>
-        <button type="submit" class="btn-submit" id="ambSubmit">APLIKUJ</button>
-      </form>
-    </div>
-  </div>
-</section>
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
-<div class="toast" id="toast"></div>
-
-<footer>
-  <div class="footer-logo">NO XCUSES</div>
-  <div class="footer-links">
+<footer role="contentinfo">
+  <div class="footer-logo">NOXCUSES</div>
+  <nav class="footer-links" aria-label="Nawigacja w stopce">
     <a href="index.html">Strona Główna</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="contact.html">Kontakt</a>
-  </div>
-  <p class="footer-copy">© 2025 NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br>Made by <a href="https://www.instagram.com/erikcoding/">ErikCoding</a></p>
+  </nav>
+  <p class="footer-copy">© <span id="footerYear">2025</span> NOXCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span></p>
 </footer>
 
 <script src="script.js"></script>
+<script src="firebase-config.js"></script>
 <script>
-document.getElementById('ambForm').addEventListener('submit', function(e) {
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+document.getElementById('ambForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const data = Object.fromEntries(new FormData(this));
-  data.id = Date.now(); data.status = 'new'; data.created_at = new Date().toISOString();
-  const amb = JSON.parse(localStorage.getItem('nox_ambassadors') || '[]');
-  amb.unshift(data);
-  localStorage.setItem('nox_ambassadors', JSON.stringify(amb));
-  showToast(getLang() === 'pl' ? 'Dziękujemy za aplikację! Odezwiemy się wkrótce.' : 'Thank you for applying! We\'ll get back to you soon.');
-  this.reset();
+  if (!validateForm(this)) return;
+
+  const btn = document.getElementById('ambSubmit');
+  setLoading(btn, true);
+
+  const data = {
+    name: this.name.value.trim(),
+    email: this.email.value.trim(),
+    social: this.social.value.trim(),
+    team: this.team.value.trim(),
+    message: this.message.value.trim(),
+    id: Date.now(), status: 'new', created_at: new Date().toISOString()
+  };
+
+  // NEW: Try Firebase first, fallback to localStorage
+  const saved = await saveToFirebase('ambassadors', data);
+  if (!saved) {
+    const amb = JSON.parse(localStorage.getItem('nox_ambassadors') || '[]');
+    amb.unshift(data);
+    localStorage.setItem('nox_ambassadors', JSON.stringify(amb));
+  }
+
+  setLoading(btn, false);
+  this.style.display = 'none';
+  document.getElementById('ambFormSuccess').style.display = 'flex';
 });
 </script>
 </body>

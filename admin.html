@@ -3,55 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin | NO XCUSES</title>
+  <title>Admin Panel | NOXCUSES</title>
+  <!-- Noindex admin -->
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="admin.css" />
 </head>
-<body>
+<body class="admin-body">
 
 <!-- LOGIN SCREEN -->
 <div id="loginScreen" class="admin-login-page">
   <div class="admin-login-box">
-    <div class="admin-logo">NO XCUSES</div>
+    <div class="admin-logo">NOXCUSES</div>
     <div class="admin-subtitle" id="adminSubtitle">Panel Administracyjny</div>
-    <form id="loginForm" class="admin-form">
+    <form id="loginForm" class="admin-form" novalidate>
       <div class="form-group">
-        <label class="form-label" id="lAdminUser">Nazwa użytkownika</label>
-        <input class="form-input" type="text" id="loginUser" required />
+        <label class="form-label" for="loginUser" id="lAdminUser">Nazwa użytkownika</label>
+        <input class="form-input" type="text" id="loginUser" autocomplete="username" required aria-required="true" />
       </div>
       <div class="form-group" style="margin-top:16px">
-        <label class="form-label" id="lAdminPass">Hasło</label>
-        <input class="form-input" type="password" id="loginPass" required />
+        <label class="form-label" for="loginPass" id="lAdminPass">Hasło</label>
+        <input class="form-input" type="password" id="loginPass" autocomplete="current-password" required aria-required="true" />
       </div>
-      <p class="admin-error" id="loginError" style="display:none;margin-top:16px">Nieprawidłowe dane logowania.</p>
+      <p class="admin-error" id="loginError" style="display:none;margin-top:16px" role="alert">Nieprawidłowe dane logowania.</p>
       <button type="submit" class="admin-btn" style="margin-top:24px" id="lAdminSubmit">ZALOGUJ</button>
     </form>
+    <!-- NEW: back to homepage link -->
+    <div style="text-align:center;margin-top:24px">
+      <a href="index.html" style="font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);transition:color 0.3s"
+        onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+        ← Strona główna
+      </a>
+    </div>
   </div>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" style="display:none">
-  <div class="admin-header">
-    <div class="admin-header-logo">NO XCUSES ADMIN</div>
+<div id="dashboard" style="display:none" role="main">
+
+  <!-- Header -->
+  <header class="admin-header" role="banner">
+    <div class="admin-header-logo">
+      <span>NOXCUSES</span>
+      <span class="admin-header-badge">ADMIN</span>
+    </div>
     <div class="admin-header-right">
-      <span id="adminUser" style="color:rgba(255,255,255,0.5)"></span>
-      <button class="admin-logout" onclick="adminLogout()" id="lLogout">Wyloguj</button>
+      <span id="adminUser" class="admin-header-user"></span>
+      <button class="admin-logout" onclick="adminLogout()" id="lLogout" aria-label="Wyloguj się">Wyloguj</button>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <section class="admin-stats-section" aria-label="Statystyki">
+    <div id="adminStats" class="admin-stats"></div>
+  </section>
+
+  <!-- Search + Tabs -->
+  <div class="admin-toolbar">
+    <div class="admin-tabs" role="tablist">
+      <button class="admin-tab active" onclick="showTab('orders')" id="tabOrders" role="tab" aria-selected="true" aria-controls="adminContent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span id="tabOrdersLabel">Zamówienia</span>
+        <span class="tab-badge" id="badgeOrders">0</span>
+      </button>
+      <button class="admin-tab" onclick="showTab('ambassadors')" id="tabAmbassadors" role="tab" aria-selected="false" aria-controls="adminContent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span id="tabAmbassadorsLabel">Ambasadorzy</span>
+        <span class="tab-badge" id="badgeAmbassadors">0</span>
+      </button>
+      <button class="admin-tab" onclick="showTab('contacts')" id="tabContacts" role="tab" aria-selected="false" aria-controls="adminContent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span id="tabContactsLabel">Wiadomości</span>
+        <span class="tab-badge" id="badgeContacts">0</span>
+      </button>
+    </div>
+    <!-- NEW: search input -->
+    <div class="admin-search-wrap">
+      <input type="search" class="admin-search" id="adminSearch" placeholder="Szukaj..." aria-label="Szukaj w wynikach" oninput="renderAdminContent()" />
     </div>
   </div>
 
-  <div class="admin-stats" id="adminStats"></div>
+  <!-- Content -->
+  <div class="admin-content" id="adminContent" role="tabpanel"></div>
 
-  <div style="background:#fff; border-bottom:1px solid #e0e0e0;">
-    <div class="admin-tabs">
-      <button class="admin-tab active" onclick="showTab('orders')" id="tabOrders">Zamówienia</button>
-      <button class="admin-tab" onclick="showTab('ambassadors')" id="tabAmbassadors">Ambasadorzy</button>
-      <button class="admin-tab" onclick="showTab('contacts')" id="tabContacts">Wiadomości</button>
-    </div>
-  </div>
-
-  <div class="admin-content" id="adminContent"></div>
 </div>
 
 <script src="script.js"></script>
+<script src="firebase-config.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>

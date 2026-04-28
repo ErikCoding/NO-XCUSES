@@ -3,23 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Konfigurator | NO XCUSES</title>
+
+  <!-- NEW: SEO -->
+  <title>Konfigurator | NOXCUSES — Zaprojektuj Własną Odzież Sportową</title>
+  <meta name="description" content="Skonfiguruj własną odzież sportową krok po kroku. Wybierz produkt, krój, kołnierz, kolory, materiał i technikę brandingu." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://noxcuses.pl/configurator.html" />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<nav class="navbar scrolled" id="navbar">
+<nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Główna nawigacja">
   <div class="navbar-inner">
-    <button class="nav-logo" onclick="logoClick()">NO XCUSES</button>
+    <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NOXCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
-      <a href="configurator.html" class="active" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="configurator.html" class="active" aria-current="page" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
       <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
-      <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+      <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -33,9 +39,9 @@
   </div>
 </nav>
 
-<div class="config-page">
+<div class="config-page" role="main">
   <!-- Progress Bar -->
-  <div class="progress-bar-wrapper">
+  <div class="progress-bar-wrapper" role="progressbar" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1">
     <div class="progress-info">
       <span id="stepLabel">Krok 1 / 10</span>
       <span id="stepName">Produkt</span>
@@ -43,26 +49,31 @@
     <div class="progress-track">
       <div class="progress-fill" id="progressFill" style="width:10%"></div>
     </div>
+    <!-- NEW: Step dots -->
+    <div class="step-dots" id="stepDots" aria-hidden="true"></div>
   </div>
 
   <!-- Step Content -->
-  <div class="config-content" id="configContent"></div>
+  <div class="config-content" id="configContent" aria-live="polite"></div>
 
   <!-- Command Bar -->
   <div class="config-bar">
-    <button class="btn-back-config" id="btnBack" onclick="configBack()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <button class="btn-back-config" id="btnBack" onclick="configBack()" disabled>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       <span id="backLabel">WSTECZ</span>
     </button>
+    <!-- NEW: validation error hint -->
+    <span class="config-validation-hint" id="validationHint" aria-live="assertive"></span>
     <button class="btn-next-config" id="btnNext" onclick="configNext()">
       <span id="nextLabel">DALEJ</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
 <script src="script.js"></script>
+<script src="firebase-config.js"></script>
 <script src="configurator.js"></script>
 </body>
 </html>
