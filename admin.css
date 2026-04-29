@@ -137,21 +137,23 @@
 .sub-field-val { color: #333; word-break: break-word; }
 
 /* Actions */
-.submission-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.submission-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .btn-mark-read {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 7px 14px; border: 1px solid var(--primary); color: var(--primary);
-  background: none; cursor: pointer; transition: all 0.2s;
+  background: none; cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .btn-mark-read:hover { background: var(--primary); color: #fff; }
+.btn-mark-read svg { width: 12px; height: 12px; }
 .btn-delete-item {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 7px 14px; border: 1px solid #ddd; color: #aaa;
-  background: none; cursor: pointer; transition: all 0.2s;
+  background: none; cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .btn-delete-item:hover { border-color: #c00; color: #c00; }
+.btn-delete-item svg { width: 12px; height: 12px; }
 
 /* No data */
 .no-data { text-align: center; padding: 64px 32px; color: #bbb; font-size: 0.9rem; }
@@ -163,6 +165,9 @@
   20%,60% { transform: translateX(-8px); }
   40%,80% { transform: translateX(8px); }
 }
+
+/* Default: show full label, hide short label */
+.btn-action-label-short { display: none; }
 
 /* ── New card highlighted ────────────────────────────────── */
 .card-new { border-left: 3px solid var(--primary); }
@@ -231,11 +236,15 @@
   .sub-field-key { min-width: auto; font-size: 0.7rem; }
   .sub-field-val { font-size: 0.82rem; }
 
-  /* Actions — stack vertically */
-  .submission-actions { flex-direction: column; gap: 6px; }
+  /* Actions — compact row on mobile */
+  .submission-actions { flex-wrap: nowrap; gap: 6px; }
   .btn-mark-read, .btn-delete-item, .btn-reply-item {
-    width: 100%; justify-content: center; padding: 10px 14px; font-size: 0.7rem;
+    flex: 1; justify-content: center; padding: 8px 6px; font-size: 0.6rem;
+    letter-spacing: 0.06em;
   }
+  /* Short labels on mobile */
+  .btn-action-label { display: none; }
+  .btn-action-label-short { display: inline; }
 
   /* Files */
   .file-action-btn, .file-action-btn-dl { padding: 4px 8px; font-size: 0.6rem; }

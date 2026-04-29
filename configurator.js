@@ -31,10 +31,9 @@ const COLOR_PRESETS = [
 ];
 
 let step = 0;
-const TOTAL = 10;
+const TOTAL = 9;
 
 let config = {
-  // UPDATED: products is now an array (multi-select)
   products: [],
   sleeve: '',
   fit: '',
@@ -43,7 +42,6 @@ let config = {
   secondaryColor: '#ffffff',
   material: '',
   branding: '',
-  files: [],
   quantity: '', sizes: '', deadline: '', notes: '',
   name: '', email: '', phone: '', team: ''
 };
@@ -55,18 +53,9 @@ const REQUIRED_FIELDS = { 1: 'sleeve', 2: 'fit', 3: 'collar', 5: 'material', 6: 
 function getStepNames() {
   return [
     t('step-product'), t('step-sleeves'), t('step-fit'), t('step-collar'),
-    t('step-colors'), t('step-material'), t('step-branding'), t('step-upload'),
+    t('step-colors'), t('step-material'), t('step-branding'),
     t('step-details'), t('step-contact')
   ];
-}
-
-function buildDots() {
-  const wrap = document.getElementById('stepDots');
-  if (!wrap) return;
-  wrap.innerHTML = Array.from({length: TOTAL}, (_, i) => `
-    <button class="step-dot${i===step?' active':i<step?' done':''}"
-      onclick="jumpToStep(${i})" aria-label="Krok ${i+1}" title="${getStepNames()[i]}"></button>
-  `).join('');
 }
 
 function jumpToStep(i) {
@@ -101,7 +90,7 @@ function updateProgress() {
   const hint = document.getElementById('validationHint');
   if (hint) hint.textContent = '';
 
-  buildDots();
+
 }
 
 // Radio-style card (single select)
@@ -349,30 +338,8 @@ function renderStep() {
         </div>`;
       break;
 
-    // ── STEP 7: Upload ───────────────────────────────────────────
+    // ── STEP 7: Details ──────────────────────────────────────────
     case 7:
-      html = `
-        <h2 class="step-title">${pl?'Prześlij pliki':'Upload files'}</h2>
-        <p class="step-sub">${pl?'Dodaj logo, grafiki lub wytyczne (PNG, JPG, PDF, AI).':'Add logos, graphics or guidelines (PNG, JPG, PDF, AI).'}</p>
-        <div class="upload-zone" onclick="document.getElementById('fileInput').click()" role="button" tabindex="0"
-          onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('fileInput').click()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:40px;height:40px;margin:0 auto 12px;display:block;color:#999"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <p>${pl?'Kliknij lub przeciągnij pliki tutaj':'Click or drag files here'}</p>
-          <p style="font-size:0.75rem;color:#bbb;margin-top:4px">PNG, JPG, PDF, AI</p>
-        </div>
-        <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.pdf,.ai,.svg" style="display:none" onchange="addFiles(this)" />
-        ${config.files.length ? `
-          <ul class="file-list">
-            ${config.files.map((f,i) => `
-              <li>
-                <span>${f}</span>
-                <button class="file-remove" onclick="removeFile(${i})" aria-label="${pl?'Usuń plik':'Remove file'} ${f}">✕</button>
-              </li>`).join('')}
-          </ul>` : ''}`;
-      break;
-
-    // ── STEP 8: Details ──────────────────────────────────────────
-    case 8:
       html = `
         <h2 class="step-title">${pl?'Szczegóły zamówienia':'Order Details'}</h2>
         <p class="step-sub">${pl?'Ilość, rozmiary, termin realizacji':'Quantity, sizes, deadline'}</p>
@@ -396,8 +363,8 @@ function renderStep() {
         </div>`;
       break;
 
-    // ── STEP 9: Contact ──────────────────────────────────────────
-    case 9:
+    // ── STEP 8: Contact ──────────────────────────────────────────
+    case 8:
       html = `
         <h2 class="step-title">${pl?'Dane kontaktowe':'Contact Details'}</h2>
         <p class="step-sub">${pl?'Potrzebujemy Twoich danych aby wysłać wycenę':'We need your details to send you a quote'}</p>
@@ -428,6 +395,7 @@ function renderStep() {
                 [pl?'Kołnierz':'Collar', config.collar],
                 [pl?'Materiał':'Material', config.material],
                 ['Branding', config.branding],
+                [pl?'Ilość':'Quantity', config.quantity],
               ].filter(([,v])=>v).map(([k,v]) => `
                 <div class="config-summary-row">
                   <span class="config-summary-key">${k}</span>
@@ -447,15 +415,7 @@ function isDark(hex) {
   return (0.299*r + 0.587*g + 0.114*b) < 128;
 }
 
-function addFiles(input) {
-  Array.from(input.files).forEach(f => { if(!config.files.includes(f.name)) config.files.push(f.name); });
-  renderStep();
-}
 
-function removeFile(i) {
-  config.files.splice(i, 1);
-  renderStep();
-}
 
 function configBack() {
   if (step > 0) { step--; renderStep(); window.scrollTo(0,0); }
@@ -500,9 +460,22 @@ async function configNext() {
     btn.classList.add('btn-loading');
 
     const sub = {
-      ...config,
       products: config.products.join(', '),
-      files: config.files.join(', '),
+      sleeve: config.sleeve,
+      fit: config.fit,
+      collar: config.collar,
+      primaryColor: config.primaryColor,
+      secondaryColor: config.secondaryColor,
+      material: config.material,
+      branding: config.branding,
+      quantity: config.quantity,
+      sizes: config.sizes,
+      deadline: config.deadline,
+      notes: config.notes,
+      name: config.name,
+      email: config.email,
+      phone: config.phone,
+      team: config.team,
       id: Date.now(), status: 'new', created_at: new Date().toISOString()
     };
 

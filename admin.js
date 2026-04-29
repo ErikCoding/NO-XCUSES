@@ -292,15 +292,18 @@ function renderCard(item) {
       <div class="submission-actions">
         ${isNew ? `<button class="btn-mark-read" onclick="markRead('${item.id}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Oznacz jako czytane
+          <span class="btn-action-label">Oznacz jako czytane</span>
+          <span class="btn-action-label-short">Czytane</span>
         </button>` : ''}
-        <button class="btn-delete-item" onclick="deleteItem('${item.id}')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-          Usuń
-        </button>
         <button class="btn-reply-item" onclick="replyEmail('${item.email}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Odpowiedz
+          <span class="btn-action-label">Odpowiedz</span>
+          <span class="btn-action-label-short">Email</span>
+        </button>
+        <button class="btn-delete-item" onclick="deleteItem('${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          <span class="btn-action-label">Usuń</span>
+          <span class="btn-action-label-short">Usuń</span>
         </button>
       </div>
     </article>`;
