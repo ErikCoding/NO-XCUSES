@@ -5,12 +5,13 @@
 // ============================================================
 
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey: "AIzaSyCVxN_A7R9k-iirzFFLzVIR4gm7cgGn1dY",
+  authDomain: "no-xcuses-cea33.firebaseapp.com",
+  databaseURL: "https://no-xcuses-cea33-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "no-xcuses-cea33",
+  storageBucket: "no-xcuses-cea33.firebasestorage.app",
+  messagingSenderId: "964497725385",
+  appId: "1:964497725385:web:6294c1283913def455ba18"
 };
 
 // ── Internal state ───────────────────────────────────────────
