@@ -149,9 +149,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
 
   const saved = await saveToFirebase('contacts', data);
   if (!saved) {
-    const contacts = JSON.parse(localStorage.getItem('nox_contacts') || '[]');
-    contacts.unshift(data);
-    localStorage.setItem('nox_contacts', JSON.stringify(contacts));
+    setLoading(btn, false);
+    showToast('Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.', true);
+    return;
   }
 
   setLoading(btn, false);

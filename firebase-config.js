@@ -22,7 +22,7 @@ window._noxFirebaseReady = false;
 // ── Load Firebase SDK and init ───────────────────────────────
 (function initFirebase() {
   if (FIREBASE_CONFIG.apiKey === "YOUR_API_KEY") {
-    console.info('[NOX] Firebase: brak konfiguracji — używam localStorage.');
+    console.info('[NOX] Firebase: brak konfiguracji.');
     return;
   }
 
@@ -78,7 +78,7 @@ window._noxFirebaseReady = false;
   document.head.appendChild(script);
 })();
 
-// ── Save a document to Firestore (with localStorage fallback) ─
+// ── Save a document to Firestore ─────────────────────────────
 async function saveToFirebase(collectionName, data) {
   if (!window._noxFirebaseReady || !window._noxDB) return false;
   try {

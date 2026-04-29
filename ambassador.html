@@ -150,12 +150,11 @@ document.getElementById('ambForm').addEventListener('submit', async function(e) 
     id: Date.now(), status: 'new', created_at: new Date().toISOString()
   };
 
-  // NEW: Try Firebase first, fallback to localStorage
   const saved = await saveToFirebase('ambassadors', data);
   if (!saved) {
-    const amb = JSON.parse(localStorage.getItem('nox_ambassadors') || '[]');
-    amb.unshift(data);
-    localStorage.setItem('nox_ambassadors', JSON.stringify(amb));
+    setLoading(btn, false);
+    showToast('Nie udało się wysłać aplikacji. Spróbuj ponownie za chwilę.', true);
+    return;
   }
 
   setLoading(btn, false);

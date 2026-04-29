@@ -1,6 +1,6 @@
 // ============================================================
 // NOXCUSES Admin Panel JS
-// Firebase Auth + Firestore odczyt/zapis + localStorage fallback
+// Firebase Auth + Firestore odczyt/zapis
 // ============================================================
 
 // ── State ────────────────────────────────────────────────────
@@ -26,37 +26,34 @@ loginForm && loginForm.addEventListener('submit', async (e) => {
   btn.disabled = true;
   btn.textContent = '...';
 
-  // If Firebase is ready → use Firebase Auth
-  if (window._noxFirebaseReady && window._noxAuthFns) {
-    try {
-      const cred = await window._noxAuthFns.signInWithEmailAndPassword(
-        window._noxAuth, email, pass
-      );
-      currentUser = cred.user;
-      showDashboard(currentUser.email);
-    } catch (err) {
-      loginError.textContent = getAuthErrorMsg(err.code);
-      loginError.style.display = 'block';
-      const box = document.querySelector('.admin-login-box');
-      box.classList.add('form-shake');
-      setTimeout(() => box.classList.remove('form-shake'), 400);
-    }
-  } else {
-    // Fallback: hardcoded admin (gdy Firebase nie skonfigurowany)
-    if (email === 'admin' && pass === 'noxcuses2025') {
-      showDashboard('admin (lokalny)');
-    } else {
-      loginError.textContent = 'Nieprawidłowe dane logowania.';
-      loginError.style.display = 'block';
-      const box = document.querySelector('.admin-login-box');
-      box.classList.add('form-shake');
-      setTimeout(() => box.classList.remove('form-shake'), 400);
-    }
+  if (!window._noxFirebaseReady || !window._noxAuthFns) {
+    showLoginError('Firebase nie jest gotowy. Odśwież stronę i spróbuj ponownie.');
+    btn.disabled = false;
+    btn.textContent = 'ZALOGUJ';
+    return;
+  }
+
+  try {
+    const cred = await window._noxAuthFns.signInWithEmailAndPassword(
+      window._noxAuth, email, pass
+    );
+    currentUser = cred.user;
+    showDashboard(currentUser.email);
+  } catch (err) {
+    showLoginError(getAuthErrorMsg(err.code));
   }
 
   btn.disabled = false;
   btn.textContent = 'ZALOGUJ';
 });
+
+function showLoginError(message) {
+  loginError.textContent = message;
+  loginError.style.display = 'block';
+  const box = document.querySelector('.admin-login-box');
+  box.classList.add('form-shake');
+  setTimeout(() => box.classList.remove('form-shake'), 400);
+}
 
 function getAuthErrorMsg(code) {
   const map = {
@@ -100,16 +97,14 @@ async function adminLogout() {
   document.getElementById('loginPass').value = '';
 }
 
-// ── Load data from Firestore OR localStorage ─────────────────
+// ── Load data from Firestore ─────────────────────────────────
 async function loadAllData() {
   if (window._noxFirebaseReady && window._noxDB) {
     adminData.orders      = await fetchCollection('submissions');
     adminData.ambassadors = await fetchCollection('ambassadors');
     adminData.contacts    = await fetchCollection('contacts');
   } else {
-    adminData.orders      = JSON.parse(localStorage.getItem('nox_submissions')  || '[]');
-    adminData.ambassadors = JSON.parse(localStorage.getItem('nox_ambassadors')  || '[]');
-    adminData.contacts    = JSON.parse(localStorage.getItem('nox_contacts')     || '[]');
+    adminData = { orders: [], ambassadors: [], contacts: [] };
   }
   updateStats();
   updateBadges();
@@ -317,50 +312,55 @@ async function markRead(id) {
 
   const item = list.find(i => String(i.id) === String(id));
   if (!item) return;
-  item.status = 'read';
 
-  if (window._noxFirebaseReady && window._noxDB) {
+  if (!window._noxFirebaseReady || !window._noxDB) {
+    alert('Firebase jest niedostępny. Nie można zapisać zmiany.');
+    return;
+  }
+
+  try {
     const col = activeTab === 'orders' ? 'submissions'
               : activeTab === 'ambassadors' ? 'ambassadors' : 'contacts';
     const docRef = window._noxFS.doc(window._noxDB, col, id);
     await window._noxFS.updateDoc(docRef, { status: 'read' });
-  } else {
-    saveLocalData();
+    item.status = 'read';
+    updateStats();
+    renderAdminContent();
+  } catch (err) {
+    console.warn('[NOX] markRead error:', err.message);
+    alert('Nie udało się oznaczyć wpisu jako przeczytanego.');
   }
-
-  updateStats();
-  renderAdminContent();
 }
 
 async function deleteItem(id) {
   if (!confirm('Usunąć ten wpis?')) return;
 
-  if (activeTab === 'orders')      adminData.orders      = adminData.orders.filter(i => String(i.id) !== String(id));
-  if (activeTab === 'ambassadors') adminData.ambassadors = adminData.ambassadors.filter(i => String(i.id) !== String(id));
-  if (activeTab === 'contacts')    adminData.contacts    = adminData.contacts.filter(i => String(i.id) !== String(id));
+  if (!window._noxFirebaseReady || !window._noxDB) {
+    alert('Firebase jest niedostępny. Nie można usunąć wpisu.');
+    return;
+  }
 
-  if (window._noxFirebaseReady && window._noxDB) {
+  try {
     const col = activeTab === 'orders' ? 'submissions'
               : activeTab === 'ambassadors' ? 'ambassadors' : 'contacts';
     const docRef = window._noxFS.doc(window._noxDB, col, id);
     await window._noxFS.deleteDoc(docRef);
-  } else {
-    saveLocalData();
-  }
 
-  updateStats();
-  updateBadges();
-  renderAdminContent();
+    if (activeTab === 'orders')      adminData.orders      = adminData.orders.filter(i => String(i.id) !== String(id));
+    if (activeTab === 'ambassadors') adminData.ambassadors = adminData.ambassadors.filter(i => String(i.id) !== String(id));
+    if (activeTab === 'contacts')    adminData.contacts    = adminData.contacts.filter(i => String(i.id) !== String(id));
+
+    updateStats();
+    updateBadges();
+    renderAdminContent();
+  } catch (err) {
+    console.warn('[NOX] deleteItem error:', err.message);
+    alert('Nie udało się usunąć wpisu.');
+  }
 }
 
 function replyEmail(email) {
   if (email) window.open(`mailto:${email}`);
-}
-
-function saveLocalData() {
-  localStorage.setItem('nox_submissions',  JSON.stringify(adminData.orders));
-  localStorage.setItem('nox_ambassadors',  JSON.stringify(adminData.ambassadors));
-  localStorage.setItem('nox_contacts',     JSON.stringify(adminData.contacts));
 }
 
 // ── Expose globals ────────────────────────────────────────────

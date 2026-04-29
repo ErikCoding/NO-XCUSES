@@ -481,9 +481,10 @@ async function configNext() {
 
     const saved = await saveToFirebase('submissions', sub);
     if (!saved) {
-      const subs = JSON.parse(localStorage.getItem('nox_submissions') || '[]');
-      subs.unshift(sub);
-      localStorage.setItem('nox_submissions', JSON.stringify(subs));
+      btn.disabled = false;
+      btn.classList.remove('btn-loading');
+      showToast(getLang()==='pl' ? 'Nie udało się wysłać zamówienia. Spróbuj ponownie za chwilę.' : 'Could not submit the order. Please try again in a moment.', true);
+      return;
     }
 
     btn.disabled = false;
