@@ -110,6 +110,7 @@ function optCard(value, label, img, fieldKey, extraLabel) {
   return `
     <button class="option-card${sel?' selected':''}"
       onclick="selectOpt('${fieldKey}','${value}')"
+      data-field="${fieldKey}" data-value="${value}"
       aria-pressed="${sel}"
       aria-label="${label}">
       <div class="option-card-img-wrap">
@@ -180,11 +181,9 @@ function toggleProduct(value) {
 
 function selectOpt(field, value) {
   config[field] = value;
-  // FIX: Update only the affected cards, not full innerHTML re-render
-  const cards = document.querySelectorAll(`[onclick^="selectOpt('${field}'"]`);
-  cards.forEach(card => {
-    const cardVal = card.getAttribute('onclick').match(/'([^']+)'$/)?.[1];
-    const isSel = cardVal === value;
+  // FIX: Immediately update DOM without full re-render to prevent flicker
+  document.querySelectorAll('.option-card[data-field="' + field + '"]').forEach(card => {
+    const isSel = card.dataset.value === value;
     card.classList.toggle('selected', isSel);
     card.setAttribute('aria-pressed', isSel);
     let checkDiv = card.querySelector('.option-check');

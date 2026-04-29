@@ -1,65 +1,112 @@
 // ============================================================
-// NEW: Firebase Configuration
-// Replace the placeholder values below with your actual
-// Firebase project credentials from:
+// Firebase Configuration
+// Uzupełnij swoimi danymi z: 
 // https://console.firebase.google.com → Project Settings → SDK
 // ============================================================
 
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey: "AIzaSyCVxN_A7R9k-iirzFFLzVIR4gm7cgGn1dY",
+  authDomain: "no-xcuses-cea33.firebaseapp.com",
+  databaseURL: "https://no-xcuses-cea33-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "no-xcuses-cea33",
+  storageBucket: "no-xcuses-cea33.firebasestorage.app",
+  messagingSenderId: "964497725385",
+  appId: "1:964497725385:web:6294c1283913def455ba18"
 };
 
-// NEW: Firebase state
-let _db = null;
-let _firebaseReady = false;
+// ── Internal state ───────────────────────────────────────────
+window._noxDB   = null;
+window._noxAuth = null;
+window._noxFirebaseReady = false;
 
-// NEW: Initialize Firebase (loads SDK dynamically — no bundler needed)
+// ── Load Firebase SDK and init ───────────────────────────────
 (function initFirebase() {
-  // Only init if real credentials are set
   if (FIREBASE_CONFIG.apiKey === "YOUR_API_KEY") {
-    console.info('[NOXCUSES] Firebase: using localStorage fallback (no credentials set).');
+    console.info('[NOX] Firebase: brak konfiguracji — używam localStorage.');
     return;
   }
 
   const script = document.createElement('script');
   script.type = 'module';
   script.textContent = `
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { initializeApp }                      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, addDoc,
+             getDocs, query, orderBy, doc,
+             updateDoc, deleteDoc, serverTimestamp }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getAuth, signInWithEmailAndPassword,
+             signOut, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import { getStorage, ref, uploadBytes,
+             getDownloadURL }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
-    const app = initializeApp(${JSON.stringify(FIREBASE_CONFIG)});
-    const db  = getFirestore(app);
+    const app  = initializeApp(${JSON.stringify(FIREBASE_CONFIG)});
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
 
-    window._noxFirestore    = db;
-    window._noxFSCollection = collection;
-    window._noxFSAddDoc     = addDoc;
-    window._noxFSTimestamp  = serverTimestamp;
-    window._firebaseReady   = true;
-    console.info('[NOXCUSES] Firebase initialized.');
+    // Expose to global scope
+    window._noxDB      = db;
+    window._noxAuth    = auth;
+    window._noxStorage = storage;
+
+    // Firestore helpers
+    window._noxFS = {
+      collection, addDoc, getDocs, query, orderBy,
+      doc, updateDoc, deleteDoc, serverTimestamp
+    };
+
+    // Auth helpers
+    window._noxAuthFns = {
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    };
+
+    // Storage helpers
+    window._noxStorageFns = {
+      ref, uploadBytes, getDownloadURL
+    };
+
+    window._noxFirebaseReady = true;
+    console.info('[NOX] Firebase zainicjalizowany.');
+
+    // Dispatch event so admin.js knows Firebase is ready
+    window.dispatchEvent(new Event('noxFirebaseReady'));
   `;
   document.head.appendChild(script);
 })();
 
-// NEW: Save to Firestore with localStorage fallback
+// ── Save a document to Firestore (with localStorage fallback) ─
 async function saveToFirebase(collectionName, data) {
-  if (!window._firebaseReady || !window._noxFirestore) {
-    return false; // Use localStorage fallback
-  }
+  if (!window._noxFirebaseReady || !window._noxDB) return false;
   try {
-    const col = window._noxFSCollection(window._noxFirestore, collectionName);
-    await window._noxFSAddDoc(col, {
+    const col = window._noxFS.collection(window._noxDB, collectionName);
+    await window._noxFS.addDoc(col, {
       ...data,
-      timestamp: window._noxFSTimestamp()
+      timestamp: window._noxFS.serverTimestamp()
     });
-    console.info(`[NOXCUSES] Saved to Firebase/${collectionName}:`, data);
     return true;
   } catch (err) {
-    console.warn('[NOXCUSES] Firebase save failed, using localStorage:', err.message);
+    console.warn('[NOX] Firebase save error:', err.message);
     return false;
+  }
+}
+
+// ── Upload a File object to Firebase Storage ─────────────────
+async function uploadFileToFirebase(file) {
+  if (!window._noxFirebaseReady || !window._noxStorage) return null;
+  try {
+    const storageRef = window._noxStorageFns.ref(
+      window._noxStorage,
+      `uploads/${Date.now()}_${file.name}`
+    );
+    const snap = await window._noxStorageFns.uploadBytes(storageRef, file);
+    const url  = await window._noxStorageFns.getDownloadURL(snap.ref);
+    return url;
+  } catch (err) {
+    console.warn('[NOX] Firebase upload error:', err.message);
+    return null;
   }
 }

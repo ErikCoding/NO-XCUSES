@@ -1,184 +1,369 @@
-// ============ ADMIN — Updated with search, badges, Firebase sync ============
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = '1234';
+// ============================================================
+// NOXCUSES Admin Panel JS
+// Firebase Auth + Firestore odczyt/zapis + localStorage fallback
+// ============================================================
 
-let currentTab = 'orders';
+// ── State ────────────────────────────────────────────────────
+let adminData = { orders: [], ambassadors: [], contacts: [] };
+let activeTab = 'orders';
+let currentUser = null;
 
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+// ── DOM refs ─────────────────────────────────────────────────
+const loginScreen  = document.getElementById('loginScreen');
+const dashboard    = document.getElementById('dashboard');
+const loginForm    = document.getElementById('loginForm');
+const loginError   = document.getElementById('loginError');
+const adminUserEl  = document.getElementById('adminUser');
+
+// ── Firebase Auth login ──────────────────────────────────────
+loginForm && loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  if (user === ADMIN_USER && pass === ADMIN_PASS) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('adminUser').textContent = user;
-    renderAdminStats();
-    showTab('orders');
+  const email = document.getElementById('loginUser').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+
+  loginError.style.display = 'none';
+  const btn = document.getElementById('lAdminSubmit');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  // If Firebase is ready → use Firebase Auth
+  if (window._noxFirebaseReady && window._noxAuthFns) {
+    try {
+      const cred = await window._noxAuthFns.signInWithEmailAndPassword(
+        window._noxAuth, email, pass
+      );
+      currentUser = cred.user;
+      showDashboard(currentUser.email);
+    } catch (err) {
+      loginError.textContent = getAuthErrorMsg(err.code);
+      loginError.style.display = 'block';
+      const box = document.querySelector('.admin-login-box');
+      box.classList.add('form-shake');
+      setTimeout(() => box.classList.remove('form-shake'), 400);
+    }
   } else {
-    const errEl = document.getElementById('loginError');
-    errEl.style.display = 'block';
-    errEl.textContent = getLang() === 'pl' ? 'Nieprawidłowe dane logowania.' : 'Invalid credentials.';
-    // NEW: shake effect
-    document.getElementById('loginForm').classList.add('form-shake');
-    setTimeout(() => document.getElementById('loginForm').classList.remove('form-shake'), 500);
+    // Fallback: hardcoded admin (gdy Firebase nie skonfigurowany)
+    if (email === 'admin' && pass === 'noxcuses2025') {
+      showDashboard('admin (lokalny)');
+    } else {
+      loginError.textContent = 'Nieprawidłowe dane logowania.';
+      loginError.style.display = 'block';
+      const box = document.querySelector('.admin-login-box');
+      box.classList.add('form-shake');
+      setTimeout(() => box.classList.remove('form-shake'), 400);
+    }
   }
+
+  btn.disabled = false;
+  btn.textContent = 'ZALOGUJ';
 });
 
-function adminLogout() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('dashboard').style.display = 'none';
+function getAuthErrorMsg(code) {
+  const map = {
+    'auth/wrong-password':       'Nieprawidłowe hasło.',
+    'auth/user-not-found':       'Nie znaleziono użytkownika.',
+    'auth/invalid-email':        'Nieprawidłowy adres e-mail.',
+    'auth/too-many-requests':    'Zbyt wiele prób. Spróbuj później.',
+    'auth/network-request-failed': 'Błąd sieci. Sprawdź połączenie.',
+  };
+  return map[code] || 'Błąd logowania. Sprawdź dane.';
+}
+
+// When Firebase is ready after page load, set up auth state listener
+window.addEventListener('noxFirebaseReady', () => {
+  window._noxAuthFns.onAuthStateChanged(window._noxAuth, (user) => {
+    if (user && !currentUser) {
+      currentUser = user;
+      showDashboard(user.email);
+    }
+  });
+});
+
+// ── Show dashboard after login ───────────────────────────────
+async function showDashboard(userLabel) {
+  loginScreen.style.display = 'none';
+  dashboard.style.display   = 'block';
+  adminUserEl.textContent   = userLabel;
+  await loadAllData();
+  showTab('orders');
+}
+
+// ── Logout ───────────────────────────────────────────────────
+async function adminLogout() {
+  if (window._noxFirebaseReady && window._noxAuthFns) {
+    await window._noxAuthFns.signOut(window._noxAuth);
+  }
+  currentUser = null;
+  dashboard.style.display   = 'none';
+  loginScreen.style.display = 'flex';
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
 }
 
-// NEW: Get data (localStorage)
-function getData(tab) {
-  const key = {orders:'nox_submissions', ambassadors:'nox_ambassadors', contacts:'nox_contacts'}[tab];
-  return JSON.parse(localStorage.getItem(key) || '[]');
+// ── Load data from Firestore OR localStorage ─────────────────
+async function loadAllData() {
+  if (window._noxFirebaseReady && window._noxDB) {
+    adminData.orders      = await fetchCollection('submissions');
+    adminData.ambassadors = await fetchCollection('ambassadors');
+    adminData.contacts    = await fetchCollection('contacts');
+  } else {
+    adminData.orders      = JSON.parse(localStorage.getItem('nox_submissions')  || '[]');
+    adminData.ambassadors = JSON.parse(localStorage.getItem('nox_ambassadors')  || '[]');
+    adminData.contacts    = JSON.parse(localStorage.getItem('nox_contacts')     || '[]');
+  }
+  updateStats();
+  updateBadges();
 }
-function saveData(tab, items) {
-  const key = {orders:'nox_submissions', ambassadors:'nox_ambassadors', contacts:'nox_contacts'}[tab];
-  localStorage.setItem(key, JSON.stringify(items));
+
+async function fetchCollection(name) {
+  try {
+    const col  = window._noxFS.collection(window._noxDB, name);
+    const q    = window._noxFS.query(col, window._noxFS.orderBy('timestamp', 'desc'));
+    const snap = await window._noxFS.getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (err) {
+    console.warn('[NOX] fetchCollection error:', name, err.message);
+    return [];
+  }
 }
 
-// NEW: Count new items per tab → badges
-function renderAdminStats() {
-  const lang = getLang();
-  const tabs = ['orders','ambassadors','contacts'];
-  const labels = lang === 'pl'
-    ? ['Zamówienia','Ambasadorzy','Wiadomości']
-    : ['Orders','Ambassadors','Messages'];
+// ── Stats ─────────────────────────────────────────────────────
+function updateStats() {
+  const newOrders = adminData.orders.filter(o => o.status === 'new').length;
+  const newAmb    = adminData.ambassadors.filter(a => a.status === 'new').length;
+  const newCon    = adminData.contacts.filter(c => c.status === 'new').length;
 
-  tabs.forEach((tab, i) => {
-    const items = getData(tab);
-    const newCount = items.filter(x => (x.status||'new') === 'new').length;
-    const badge = document.getElementById('badge' + tab.charAt(0).toUpperCase() + tab.slice(1));
-    if (badge) { badge.textContent = items.length; badge.style.display = items.length ? '' : 'none'; }
-  });
-
-  // Stats cards
-  const allData = tabs.map(t => getData(t));
-  document.getElementById('adminStats').innerHTML = allData.map((items, i) => `
+  document.getElementById('adminStats').innerHTML = `
     <div class="stat-card">
-      <div class="stat-num">${items.length}</div>
-      <div class="stat-label">${labels[i]}</div>
-      ${items.filter(x=>(x.status||'new')==='new').length
-        ? `<div class="stat-new-badge">${items.filter(x=>(x.status||'new')==='new').length} ${lang==='pl'?'nowych':'new'}</div>`
-        : ''}
-    </div>`).join('');
+      <div class="stat-num">${adminData.orders.length}</div>
+      <div class="stat-label">Zamówienia</div>
+      ${newOrders ? `<div class="stat-new-badge">+${newOrders} nowych</div>` : ''}
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${adminData.ambassadors.length}</div>
+      <div class="stat-label">Ambasadorzy</div>
+      ${newAmb ? `<div class="stat-new-badge">+${newAmb} nowych</div>` : ''}
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${adminData.contacts.length}</div>
+      <div class="stat-label">Wiadomości</div>
+      ${newCon ? `<div class="stat-new-badge">+${newCon} nowych</div>` : ''}
+    </div>
+  `;
 }
 
+function updateBadges() {
+  document.getElementById('badgeOrders').textContent      = adminData.orders.length;
+  document.getElementById('badgeAmbassadors').textContent = adminData.ambassadors.length;
+  document.getElementById('badgeContacts').textContent    = adminData.contacts.length;
+}
+
+// ── Tabs ─────────────────────────────────────────────────────
 function showTab(tab) {
-  currentTab = tab;
+  activeTab = tab;
   document.querySelectorAll('.admin-tab').forEach(t => {
-    t.classList.remove('active');
-    t.setAttribute('aria-selected','false');
+    t.classList.toggle('active', t.id === 'tab' + cap(tab));
+    t.setAttribute('aria-selected', t.id === 'tab' + cap(tab));
   });
-  const tabEl = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
-  if (tabEl) { tabEl.classList.add('active'); tabEl.setAttribute('aria-selected','true'); }
+  document.getElementById('adminSearch').value = '';
   renderAdminContent();
 }
 
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ── Render content ────────────────────────────────────────────
 function renderAdminContent() {
-  const lang = getLang();
-  const items = getData(currentTab);
-  const content = document.getElementById('adminContent');
-  if (!content) return;
+  const q    = (document.getElementById('adminSearch')?.value || '').toLowerCase();
+  let items  = [];
 
-  // NEW: search filter
-  const searchEl = document.getElementById('adminSearch');
-  const query = searchEl ? searchEl.value.trim().toLowerCase() : '';
+  if (activeTab === 'orders')      items = adminData.orders;
+  if (activeTab === 'ambassadors') items = adminData.ambassadors;
+  if (activeTab === 'contacts')    items = adminData.contacts;
 
-  const filtered = query ? items.filter(item => {
-    const data = item.data || item;
-    return JSON.stringify(data).toLowerCase().includes(query);
-  }) : items;
+  if (q) {
+    items = items.filter(item =>
+      JSON.stringify(item).toLowerCase().includes(q)
+    );
+  }
 
-  if (!filtered.length) {
-    content.innerHTML = `<div class="no-data">${lang==='pl'?'Brak danych.':'No data.'}</div>`;
+  const el = document.getElementById('adminContent');
+
+  if (!items.length) {
+    el.innerHTML = `<div class="no-data">Brak wyników.</div>`;
     return;
   }
 
-  content.innerHTML = filtered.map(item => {
-    const data = item.data || item;
-    const status = item.status || 'new';
-    const date = item.created_at ? new Date(item.created_at).toLocaleDateString('pl-PL', {
-      day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'
-    }) : '';
-
-    // Field labels map
-    const labelMap = {
-      pl: { name:'Imię', email:'E-mail', phone:'Telefon', team:'Drużyna', message:'Wiadomość',
-            subject:'Temat', social:'Social Media', product:'Produkt', sleeve:'Rękawy',
-            fit:'Krój', collar:'Kołnierz', material:'Materiał', branding:'Branding',
-            primaryColor:'Kolor główny', secondaryColor:'Kolor dodatkowy',
-            quantity:'Ilość', sizes:'Rozmiary', deadline:'Termin', notes:'Uwagi', files:'Pliki' },
-      en: { name:'Name', email:'Email', phone:'Phone', team:'Team', message:'Message',
-            subject:'Subject', social:'Social Media', product:'Product', sleeve:'Sleeves',
-            fit:'Fit', collar:'Collar', material:'Material', branding:'Branding',
-            primaryColor:'Primary color', secondaryColor:'Secondary color',
-            quantity:'Quantity', sizes:'Sizes', deadline:'Deadline', notes:'Notes', files:'Files' }
-    };
-    const lm = labelMap[lang] || labelMap.pl;
-
-    const skipKeys = ['id','status','created_at','timestamp'];
-    const fields = Object.entries(data)
-      .filter(([k, v]) => !skipKeys.includes(k) && v)
-      .map(([k, v]) => {
-        const label = lm[k] || k;
-        // Color swatches inline
-        if (k === 'primaryColor' || k === 'secondaryColor') {
-          return `<div class="sub-field"><span class="sub-field-key">${label}:</span> <span class="color-dot" style="background:${v};display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;border:1px solid #ddd"></span> <span class="sub-field-val">${v}</span></div>`;
-        }
-        return `<div class="sub-field"><span class="sub-field-key">${label}:</span> <span class="sub-field-val">${v}</span></div>`;
-      }).join('');
-
-    return `
-      <article class="submission-card" id="card-${item.id}">
-        <div class="submission-card-header">
-          <div class="submission-meta">
-            <span class="submission-status ${status==='new'?'status-new':'status-read'}">
-              ${status==='new' ? (lang==='pl'?'Nowe':'New') : (lang==='pl'?'Przeczytane':'Read')}
-            </span>
-            <span class="submission-name">${data.name || '—'}</span>
-            ${data.email ? `<a href="mailto:${data.email}" class="submission-email">${data.email}</a>` : ''}
-          </div>
-          <time class="submission-date" datetime="${item.created_at||''}">${date}</time>
-        </div>
-        <details class="submission-details-toggle">
-          <summary>${lang==='pl'?'Szczegóły':'Details'}</summary>
-          <div class="submission-data">${fields}</div>
-        </details>
-        <div class="submission-actions">
-          ${status==='new' ? `
-            <button class="btn-mark-read" onclick="markRead('${currentTab}',${item.id})" aria-label="${lang==='pl'?'Oznacz jako przeczytane':'Mark as read'}">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>
-              ${lang==='pl'?'Przeczytane':'Mark read'}
-            </button>` : ''}
-          <button class="btn-delete-item" onclick="deleteItem('${currentTab}',${item.id})" aria-label="${lang==='pl'?'Usuń':'Delete'}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-            ${lang==='pl'?'Usuń':'Delete'}
-          </button>
-        </div>
-      </article>`;
-  }).join('');
+  el.innerHTML = items.map(item => renderCard(item)).join('');
 }
 
-function markRead(tab, id) {
-  const items = getData(tab).map(i => i.id === id ? {...i, status:'read'} : i);
-  saveData(tab, items);
-  renderAdminStats();
+// ── Render single card ────────────────────────────────────────
+function renderCard(item) {
+  const isNew  = item.status === 'new';
+  const date   = item.created_at
+    ? new Date(item.created_at).toLocaleDateString('pl-PL', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' })
+    : '—';
+
+  // Choose display fields based on tab
+  let fields = [];
+  if (activeTab === 'orders') {
+    fields = [
+      ['Produkty',  item.products || item.product],
+      ['Rękawy',    item.sleeve],
+      ['Krój',      item.fit],
+      ['Kołnierz',  item.collar],
+      ['Materiał',  item.material],
+      ['Branding',  item.branding],
+      ['Ilość',     item.quantity],
+      ['Rozmiary',  item.sizes],
+      ['Termin',    item.deadline],
+      ['Telefon',   item.phone],
+      ['Drużyna',   item.team],
+      ['Uwagi',     item.notes],
+    ];
+  } else if (activeTab === 'ambassadors') {
+    fields = [
+      ['Social',    item.social],
+      ['Drużyna',   item.team],
+      ['Wiadomość', item.message],
+    ];
+  } else {
+    fields = [
+      ['Temat',     item.subject],
+      ['Wiadomość', item.message],
+    ];
+  }
+
+  const filteredFields = fields.filter(([, v]) => v);
+
+  // ── Files section ─────────────────────────────────────────
+  let filesHtml = '';
+  if (item.files && item.files.trim && item.files.trim()) {
+    const fileList = item.files.split(',').map(f => f.trim()).filter(Boolean);
+    filesHtml = `
+      <div class="sub-field">
+        <span class="sub-field-key">Pliki</span>
+        <span class="sub-field-val files-val">
+          ${fileList.map(f => {
+            // If it's a URL (Firebase Storage) → show open/download links
+            if (f.startsWith('http')) {
+              const name = decodeURIComponent(f.split('/').pop().split('?')[0].replace(/^\d+_/, ''));
+              return `<span class="file-entry">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span class="file-name">${name}</span>
+                <a href="${f}" target="_blank" rel="noopener" class="file-action-btn">Otwórz</a>
+                <a href="${f}" download="${name}" class="file-action-btn file-action-btn-dl">Pobierz</a>
+              </span>`;
+            } else {
+              // Local filename only (no URL available)
+              return `<span class="file-entry">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span class="file-name">${f}</span>
+                <span class="file-no-url">Plik nie został przesłany do chmury</span>
+              </span>`;
+            }
+          }).join('')}
+        </span>
+      </div>`;
+  }
+
+  const detailsHtml = filteredFields.map(([k, v]) => `
+    <div class="sub-field">
+      <span class="sub-field-key">${k}</span>
+      <span class="sub-field-val">${v}</span>
+    </div>`).join('') + filesHtml;
+
+  return `
+    <article class="submission-card${isNew ? ' card-new' : ''}" data-id="${item.id}">
+      <div class="submission-card-header">
+        <div class="submission-meta">
+          <span class="submission-name">${item.name || '—'}</span>
+          ${item.email ? `<a href="mailto:${item.email}" class="submission-email">${item.email}</a>` : ''}
+          <span class="submission-date">${date}</span>
+        </div>
+        <span class="submission-status ${isNew ? 'status-new' : 'status-read'}">${isNew ? 'NOWE' : 'CZYTANE'}</span>
+      </div>
+
+      ${detailsHtml ? `
+      <details class="submission-details-toggle">
+        <summary>Szczegóły</summary>
+        <div class="submission-data">${detailsHtml}</div>
+      </details>` : ''}
+
+      <div class="submission-actions">
+        ${isNew ? `<button class="btn-mark-read" onclick="markRead('${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Oznacz jako czytane
+        </button>` : ''}
+        <button class="btn-delete-item" onclick="deleteItem('${item.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          Usuń
+        </button>
+        <button class="btn-reply-item" onclick="replyEmail('${item.email}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Odpowiedz
+        </button>
+      </div>
+    </article>`;
+}
+
+// ── Actions ───────────────────────────────────────────────────
+async function markRead(id) {
+  const list = activeTab === 'orders' ? adminData.orders
+             : activeTab === 'ambassadors' ? adminData.ambassadors
+             : adminData.contacts;
+
+  const item = list.find(i => String(i.id) === String(id));
+  if (!item) return;
+  item.status = 'read';
+
+  if (window._noxFirebaseReady && window._noxDB) {
+    const col = activeTab === 'orders' ? 'submissions'
+              : activeTab === 'ambassadors' ? 'ambassadors' : 'contacts';
+    const docRef = window._noxFS.doc(window._noxDB, col, id);
+    await window._noxFS.updateDoc(docRef, { status: 'read' });
+  } else {
+    saveLocalData();
+  }
+
+  updateStats();
   renderAdminContent();
 }
 
-function deleteItem(tab, id) {
-  if (!confirm(getLang()==='pl' ? 'Usunąć ten wpis?' : 'Delete this entry?')) return;
-  const items = getData(tab).filter(i => i.id !== id);
-  saveData(tab, items);
-  renderAdminStats();
+async function deleteItem(id) {
+  if (!confirm('Usunąć ten wpis?')) return;
+
+  if (activeTab === 'orders')      adminData.orders      = adminData.orders.filter(i => String(i.id) !== String(id));
+  if (activeTab === 'ambassadors') adminData.ambassadors = adminData.ambassadors.filter(i => String(i.id) !== String(id));
+  if (activeTab === 'contacts')    adminData.contacts    = adminData.contacts.filter(i => String(i.id) !== String(id));
+
+  if (window._noxFirebaseReady && window._noxDB) {
+    const col = activeTab === 'orders' ? 'submissions'
+              : activeTab === 'ambassadors' ? 'ambassadors' : 'contacts';
+    const docRef = window._noxFS.doc(window._noxDB, col, id);
+    await window._noxFS.deleteDoc(docRef);
+  } else {
+    saveLocalData();
+  }
+
+  updateStats();
+  updateBadges();
   renderAdminContent();
 }
 
-// Expose for applyLang
+function replyEmail(email) {
+  if (email) window.open(`mailto:${email}`);
+}
+
+function saveLocalData() {
+  localStorage.setItem('nox_submissions',  JSON.stringify(adminData.orders));
+  localStorage.setItem('nox_ambassadors',  JSON.stringify(adminData.ambassadors));
+  localStorage.setItem('nox_contacts',     JSON.stringify(adminData.contacts));
+}
+
+// ── Expose globals ────────────────────────────────────────────
+window.adminLogout       = adminLogout;
+window.showTab           = showTab;
+window.markRead          = markRead;
+window.deleteItem        = deleteItem;
+window.replyEmail        = replyEmail;
 window.renderAdminContent = renderAdminContent;
-window.renderAdminStats = renderAdminStats;
