@@ -346,19 +346,19 @@ function renderStep() {
         <div style="max-width:520px">
           <div class="form-group">
             <label class="form-label" for="det-qty">${pl?'Ilość (szt.)':'Quantity (pcs)'}</label>
-            <input class="form-input" type="number" id="det-qty" min="1" value="${config.quantity}" oninput="config.quantity=this.value" placeholder="${pl?'np. 20':'e.g. 20'}" />
+            <input class="form-input" type="number" id="det-qty" min="1" value="${escapeHtml(config.quantity)}" oninput="config.quantity=this.value" placeholder="${pl?'np. 20':'e.g. 20'}" />
           </div>
           <div class="form-group">
             <label class="form-label" for="det-sizes">${pl?'Rozmiary':'Sizes'}</label>
-            <input class="form-input" type="text" id="det-sizes" value="${config.sizes}" oninput="config.sizes=this.value" placeholder="S×2, M×5, L×10, XL×3" />
+            <input class="form-input" type="text" id="det-sizes" value="${escapeHtml(config.sizes)}" oninput="config.sizes=this.value" placeholder="S×2, M×5, L×10, XL×3" />
           </div>
           <div class="form-group">
             <label class="form-label" for="det-deadline">${pl?'Termin realizacji':'Deadline'}</label>
-            <input class="form-input" type="date" id="det-deadline" value="${config.deadline}" oninput="config.deadline=this.value" />
+            <input class="form-input" type="date" id="det-deadline" value="${escapeHtml(config.deadline)}" oninput="config.deadline=this.value" />
           </div>
           <div class="form-group">
             <label class="form-label" for="det-notes">${pl?'Dodatkowe uwagi':'Additional notes'}</label>
-            <textarea class="form-textarea" id="det-notes" oninput="config.notes=this.value">${config.notes}</textarea>
+            <textarea class="form-textarea" id="det-notes" oninput="config.notes=this.value">${escapeHtml(config.notes)}</textarea>
           </div>
         </div>`;
       break;
@@ -371,19 +371,19 @@ function renderStep() {
         <div style="max-width:520px">
           <div class="form-group">
             <label class="form-label" for="con-name-c">${pl?'Imię i nazwisko':'Full name'} *</label>
-            <input class="form-input" type="text" id="con-name-c" value="${config.name}" oninput="config.name=this.value" autocomplete="name" required />
+            <input class="form-input" type="text" id="con-name-c" value="${escapeHtml(config.name)}" oninput="config.name=this.value" autocomplete="name" required />
           </div>
           <div class="form-group">
             <label class="form-label" for="con-email-c">${pl?'Adres e-mail':'Email address'} *</label>
-            <input class="form-input" type="email" id="con-email-c" value="${config.email}" oninput="config.email=this.value" autocomplete="email" required />
+            <input class="form-input" type="email" id="con-email-c" value="${escapeHtml(config.email)}" oninput="config.email=this.value" autocomplete="email" required />
           </div>
           <div class="form-group">
             <label class="form-label" for="con-phone-c">${pl?'Telefon':'Phone'}</label>
-            <input class="form-input" type="tel" id="con-phone-c" value="${config.phone}" oninput="config.phone=this.value" autocomplete="tel" />
+            <input class="form-input" type="tel" id="con-phone-c" value="${escapeHtml(config.phone)}" oninput="config.phone=this.value" autocomplete="tel" />
           </div>
           <div class="form-group">
             <label class="form-label" for="con-team-c">${pl?'Nazwa drużyny / organizacji':'Team / Organization'}</label>
-            <input class="form-input" type="text" id="con-team-c" value="${config.team}" oninput="config.team=this.value" />
+            <input class="form-input" type="text" id="con-team-c" value="${escapeHtml(config.team)}" oninput="config.team=this.value" />
           </div>
           <div class="config-summary">
             <h3 class="config-summary-title">${pl?'Podsumowanie':'Summary'}</h3>
@@ -398,8 +398,8 @@ function renderStep() {
                 [pl?'Ilość':'Quantity', config.quantity],
               ].filter(([,v])=>v).map(([k,v]) => `
                 <div class="config-summary-row">
-                  <span class="config-summary-key">${k}</span>
-                  <span class="config-summary-val">${v}</span>
+                  <span class="config-summary-key">${escapeHtml(k)}</span>
+                  <span class="config-summary-val">${escapeHtml(v)}</span>
                 </div>`).join('')}
             </div>
           </div>
@@ -408,11 +408,118 @@ function renderStep() {
   }
 
   el.innerHTML = html;
+  if (typeof revealConfigStep === 'function') revealConfigStep(el);
 }
 
 function isDark(hex) {
   const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
   return (0.299*r + 0.587*g + 0.114*b) < 128;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }[char]));
+}
+
+function configLabel(group, value) {
+  const pl = getLang() === 'pl';
+  const labels = {
+    products: {
+      jersey: pl ? 'Koszulka' : 'Jersey',
+      shorts: pl ? 'Spodenki' : 'Shorts',
+      socks: pl ? 'Skarpety' : 'Socks'
+    },
+    sleeve: {
+      raglan: 'Raglan',
+      setin: pl ? 'Wszywany' : 'Set-in'
+    },
+    fit: {
+      slim: 'Slim Fit',
+      regular: 'Regular Fit'
+    },
+    collar: {
+      crewneck: pl ? 'Okrągły' : 'Crewneck',
+      vneck: 'V-Neck',
+      'vneck-overlap': pl ? 'V-Neck zakładkowy' : 'Overlap V-Neck',
+      polo: 'Polo',
+      'vneck-polo': 'V-Neck Polo'
+    },
+    material: {
+      standard: pl ? 'Standardowy' : 'Standard',
+      rib: pl ? 'Ściągacz (Rib)' : 'Rib Knit'
+    },
+    branding: {
+      sublimation: pl ? 'Sublimacja' : 'Sublimation',
+      heatpress: pl ? 'Termotransfer' : 'Heat Press',
+      silicone: pl ? 'Silikon' : 'Silicone Print',
+      embroidery: pl ? 'Haft' : 'Embroidery'
+    }
+  };
+  return labels[group]?.[value] || value || '—';
+}
+
+function showConfigSuccess(submission) {
+  const overlay = document.getElementById('configSuccessOverlay');
+  if (!overlay) {
+    setTimeout(() => { window.location.href = 'index.html'; }, 2500);
+    return;
+  }
+
+  const pl = getLang() === 'pl';
+  const productSummary = config.products.map(product => configLabel('products', product)).join(', ');
+  const rows = [
+    [pl ? 'Produkty' : 'Products', productSummary],
+    [pl ? 'Rękawy' : 'Sleeves', configLabel('sleeve', submission.sleeve)],
+    [pl ? 'Krój' : 'Fit', configLabel('fit', submission.fit)],
+    [pl ? 'Kołnierz' : 'Collar', configLabel('collar', submission.collar)],
+    [pl ? 'Materiał' : 'Material', configLabel('material', submission.material)],
+    ['Branding', configLabel('branding', submission.branding)],
+    [pl ? 'Kolory' : 'Colors', `${submission.primaryColor} / ${submission.secondaryColor}`],
+    [pl ? 'Ilość' : 'Quantity', submission.quantity],
+    [pl ? 'Rozmiary' : 'Sizes', submission.sizes],
+    [pl ? 'Termin' : 'Deadline', submission.deadline],
+    [pl ? 'Kontakt' : 'Contact', `${submission.name} · ${submission.email}`]
+  ].filter(([, value]) => value);
+
+  overlay.innerHTML = `
+    <div class="config-success-panel">
+      <div class="success-visual">
+        <div class="success-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p class="success-kicker">${pl ? 'Projekt przyjęty' : 'Project received'}</p>
+        <h2 class="success-title">${pl ? 'Twój projekt jest już u nas' : 'Your project is now with us'}</h2>
+        <p class="success-copy">${pl ? 'Dziękujemy. Przejrzymy konfigurację i odezwiemy się z kolejnym krokiem tak szybko, jak to możliwe.' : 'Thank you. We will review the configuration and get back to you with the next step as soon as possible.'}</p>
+        <a class="success-home-link" href="index.html">${pl ? 'Wróć teraz' : 'Back now'}</a>
+      </div>
+      <div class="success-summary">
+        <h3 class="success-summary-title">${pl ? 'Podsumowanie konfiguracji' : 'Configuration summary'}</h3>
+        <div class="success-summary-list">
+          ${rows.map(([key, value]) => `
+            <div class="success-summary-row">
+              <span class="success-summary-key">${escapeHtml(key)}</span>
+              <span class="success-summary-val">${escapeHtml(value)}</span>
+            </div>
+          `).join('')}
+        </div>
+        <p class="success-redirect">${pl ? 'Za chwilę wrócisz na stronę główną.' : 'You will return to the homepage shortly.'}</p>
+        <div class="success-progress" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+  `;
+
+  overlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => overlay.classList.add('show'));
+
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 6200);
 }
 
 
@@ -489,8 +596,7 @@ async function configNext() {
 
     btn.disabled = false;
     btn.classList.remove('btn-loading');
-    showToast(t('success-order'));
-    setTimeout(() => { window.location.href = 'index.html'; }, 2500);
+    showConfigSuccess(sub);
     return;
   }
 

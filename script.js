@@ -142,7 +142,10 @@ function applyLang() {
   if (conBtn) { const span = conBtn.querySelector('.btn-text'); if(span) span.textContent = t('con-submit'); }
 
   if (typeof renderStep === 'function') renderStep();
-  if (typeof renderAdminContent === 'function') { renderAdminStats(); renderAdminContent(); }
+  if (typeof renderAdminContent === 'function') {
+    if (typeof updateStats === 'function') updateStats();
+    renderAdminContent();
+  }
 }
 
 // ============ NAVBAR ============
@@ -213,9 +216,95 @@ function setLoading(btn, isLoading) {
   btn.classList.toggle('btn-loading', isLoading);
 }
 
+// ============ MOTION ============
+const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function initHeroParallax() {
+  const hero = document.querySelector('.hero');
+  const heroBg = document.querySelector('.hero-bg');
+  if (!hero || !heroBg || prefersReducedMotion) return;
+
+  let ticking = false;
+  const update = () => {
+    const rect = hero.getBoundingClientRect();
+    const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+    if (visible) {
+      const travelled = Math.min(Math.max(-rect.top, 0), hero.offsetHeight);
+      heroBg.style.setProperty('--hero-parallax', (travelled * 0.24).toFixed(2));
+    }
+    ticking = false;
+  };
+
+  const requestUpdate = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  };
+
+  update();
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+}
+
+function initScrollReveals(root) {
+  const scope = root || document;
+  const targets = scope.querySelectorAll([
+    '.section-title',
+    '.how-step',
+    '.gallery-item',
+    '.gallery-more',
+    '.faq-intro',
+    '.faq-item',
+    '.footer-logo',
+    '.footer-links',
+    '.footer-copy',
+    '.page-header',
+    '.portfolio-item',
+    '.benefit',
+    '.form-wrapper',
+    '.contact-grid > *'
+  ].join(','));
+
+  if (!targets.length) return;
+
+  targets.forEach((el, index) => {
+    if (el.classList.contains('anim-reveal') || el.classList.contains('is-visible')) return;
+    el.classList.add('anim-reveal');
+    el.style.setProperty('--reveal-delay', `${Math.min(index % 6, 5) * 55}ms`);
+  });
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    targets.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  targets.forEach(el => observer.observe(el));
+}
+
+function revealConfigStep(root) {
+  if (!root) return;
+  const targets = root.querySelectorAll('.step-title, .step-sub, .option-card, .color-section, .color-preview, .material-note, .form-group, .config-summary');
+  targets.forEach((el, index) => {
+    el.classList.add(el.classList.contains('option-card') ? 'anim-scale' : 'anim-reveal');
+    el.style.setProperty('--reveal-delay', `${Math.min(index, 8) * 45}ms`);
+  });
+  requestAnimationFrame(() => targets.forEach(el => el.classList.add('is-visible')));
+}
+
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
   applyLang();
+  initHeroParallax();
+  initScrollReveals(document);
 
   // NEW: Close mobile menu on outside click
   document.addEventListener('click', (e) => {
@@ -231,3 +320,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('mousedown', () => document.body.classList.add('using-mouse'));
   document.addEventListener('keydown', () => document.body.classList.remove('using-mouse'));
 });
+
+window.revealConfigStep = revealConfigStep;
