@@ -280,13 +280,19 @@ function renderStep() {
           <div class="color-swatches">
             ${COLOR_PRESETS.map(c => `
               <button class="color-swatch${config.primaryColor===c?' selected':''}"
-                style="background:${c}" onclick="config.primaryColor='${c}';renderStep()"
+                style="background:${c}" onclick="selectColor('primaryColor','${c}')"
+                data-color-field="primaryColor" data-color-value="${c}"
                 aria-label="${c}" aria-pressed="${config.primaryColor===c}">
-                ${config.primaryColor===c ? `<svg viewBox="0 0 24 24" fill="none" stroke="${isDark(c)?'#fff':'#000'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>` : ''}
+                ${config.primaryColor===c ? colorCheckSvg(c) : ''}
               </button>`).join('')}
-            <input type="color" class="color-input" value="${config.primaryColor}"
-              onchange="config.primaryColor=this.value;renderStep()"
-              aria-label="${pl?'Własny kolor główny':'Custom primary color'}" />
+            <label class="custom-color-picker" aria-label="${pl?'Wybierz własny kolor główny':'Choose custom primary color'}">
+              <span class="custom-color-dot" data-custom-color-dot="primaryColor" style="background:${config.primaryColor}"></span>
+              <span class="custom-color-text">${pl?'Własny':'Custom'}</span>
+              <span class="custom-color-value" data-custom-color-value="primaryColor">${config.primaryColor}</span>
+              <input type="color" class="color-input" value="${config.primaryColor}"
+                oninput="selectColor('primaryColor', this.value)"
+                aria-label="${pl?'Własny kolor główny':'Custom primary color'}" />
+            </label>
           </div>
         </div>
         <div class="color-section">
@@ -294,19 +300,25 @@ function renderStep() {
           <div class="color-swatches">
             ${COLOR_PRESETS.map(c => `
               <button class="color-swatch${config.secondaryColor===c?' selected':''}"
-                style="background:${c}" onclick="config.secondaryColor='${c}';renderStep()"
+                style="background:${c}" onclick="selectColor('secondaryColor','${c}')"
+                data-color-field="secondaryColor" data-color-value="${c}"
                 aria-label="${c}" aria-pressed="${config.secondaryColor===c}">
-                ${config.secondaryColor===c ? `<svg viewBox="0 0 24 24" fill="none" stroke="${isDark(c)?'#fff':'#000'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>` : ''}
+                ${config.secondaryColor===c ? colorCheckSvg(c) : ''}
               </button>`).join('')}
-            <input type="color" class="color-input" value="${config.secondaryColor}"
-              onchange="config.secondaryColor=this.value;renderStep()"
-              aria-label="${pl?'Własny kolor dodatkowy':'Custom secondary color'}" />
+            <label class="custom-color-picker" aria-label="${pl?'Wybierz własny kolor dodatkowy':'Choose custom secondary color'}">
+              <span class="custom-color-dot" data-custom-color-dot="secondaryColor" style="background:${config.secondaryColor}"></span>
+              <span class="custom-color-text">${pl?'Własny':'Custom'}</span>
+              <span class="custom-color-value" data-custom-color-value="secondaryColor">${config.secondaryColor}</span>
+              <input type="color" class="color-input" value="${config.secondaryColor}"
+                oninput="selectColor('secondaryColor', this.value)"
+                aria-label="${pl?'Własny kolor dodatkowy':'Custom secondary color'}" />
+            </label>
           </div>
         </div>
         <div class="color-preview" aria-label="${pl?'Podgląd kolorów':'Color preview'}">
-          <div class="color-preview-box" style="background:${config.primaryColor}"></div>
+          <div class="color-preview-box" data-color-preview="primaryColor" style="background:${config.primaryColor}"></div>
           <span class="color-preview-plus" aria-hidden="true">+</span>
-          <div class="color-preview-box" style="background:${config.secondaryColor}"></div>
+          <div class="color-preview-box" data-color-preview="secondaryColor" style="background:${config.secondaryColor}"></div>
         </div>`;
       break;
 
@@ -414,6 +426,47 @@ function renderStep() {
 function isDark(hex) {
   const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
   return (0.299*r + 0.587*g + 0.114*b) < 128;
+}
+
+function normalizeHex(hex) {
+  const value = String(hex || '').trim();
+  return /^#[0-9A-Fa-f]{6}$/.test(value) ? value.toUpperCase() : '#000000';
+}
+
+function colorCheckSvg(hex) {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="${isDark(hex)?'#fff':'#000'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+}
+
+function selectColor(field, value) {
+  if (!['primaryColor', 'secondaryColor'].includes(field)) return;
+  config[field] = normalizeHex(value);
+  updateColorUi(field);
+}
+
+function updateColorUi(field) {
+  const value = config[field];
+
+  document.querySelectorAll(`.color-swatch[data-color-field="${field}"]`).forEach(btn => {
+    const isSelected = btn.dataset.colorValue.toUpperCase() === value;
+    btn.classList.toggle('selected', isSelected);
+    btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    btn.innerHTML = isSelected ? colorCheckSvg(value) : '';
+  });
+
+  document.querySelectorAll(`.color-input`).forEach(input => {
+    if (input.closest('.custom-color-picker')?.querySelector(`[data-custom-color-dot="${field}"]`)) {
+      input.value = value;
+    }
+  });
+
+  const customDot = document.querySelector(`[data-custom-color-dot="${field}"]`);
+  if (customDot) customDot.style.background = value;
+
+  const customValue = document.querySelector(`[data-custom-color-value="${field}"]`);
+  if (customValue) customValue.textContent = value;
+
+  const preview = document.querySelector(`[data-color-preview="${field}"]`);
+  if (preview) preview.style.background = value;
 }
 
 function escapeHtml(value) {

@@ -135,6 +135,19 @@
 .sub-field:last-child { border-bottom: none; }
 .sub-field-key { color: #999; font-weight: 600; min-width: 110px; flex-shrink: 0; }
 .sub-field-val { color: #333; word-break: break-word; }
+.admin-color-val {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.admin-color-chip {
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(0,0,0,0.16);
+  flex-shrink: 0;
+}
 
 /* Actions */
 .submission-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }

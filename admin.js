@@ -202,6 +202,22 @@ function safeExternalUrl(value) {
   }
 }
 
+function isHexColor(value) {
+  return /^#[0-9A-Fa-f]{6}$/.test(String(value || '').trim());
+}
+
+function renderFieldValue(key, value) {
+  const label = String(key || '').toLowerCase();
+  const val = String(value || '').trim();
+  if (label.includes('kolor') && isHexColor(val)) {
+    return `<span class="admin-color-val">
+      <span class="admin-color-chip" style="background:${escapeAttr(val)}"></span>
+      <span>${escapeHtml(val.toUpperCase())}</span>
+    </span>`;
+  }
+  return escapeHtml(value);
+}
+
 // ── Render content ────────────────────────────────────────────
 function renderAdminContent() {
   const q    = (document.getElementById('adminSearch')?.value || '').toLowerCase();
@@ -247,6 +263,8 @@ function renderCard(item) {
       ['Kołnierz',  item.collar],
       ['Materiał',  item.material],
       ['Branding',  item.branding],
+      ['Kolor główny', item.primaryColor],
+      ['Kolor dodatkowy', item.secondaryColor],
       ['Ilość',     item.quantity],
       ['Rozmiary',  item.sizes],
       ['Termin',    item.deadline],
@@ -303,7 +321,7 @@ function renderCard(item) {
   const detailsHtml = filteredFields.map(([k, v]) => `
     <div class="sub-field">
       <span class="sub-field-key">${escapeHtml(k)}</span>
-      <span class="sub-field-val">${escapeHtml(v)}</span>
+      <span class="sub-field-val">${renderFieldValue(k, v)}</span>
     </div>`).join('') + filesHtml;
 
   return `
