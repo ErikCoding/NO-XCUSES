@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- NEW: SEO -->
-  <title>Konfigurator | NO XCUSES — Zaprojektuj Własną Odzież Sportową</title>
-  <meta name="description" content="Skonfiguruj własną odzież sportową krok po kroku. Wybierz produkt, krój, kołnierz, kolory, materiał i technikę brandingu." />
+  <title>Konfigurator | NO XCUSES — Wycena i projekt dla klubu</title>
+  <meta name="description" content="Skonfiguruj stroje, odzież i akcesoria sportowe dla klubu. Na podstawie konfiguracji przygotujemy indywidualną wycenę i projekt." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="configurator.html" />
 
@@ -19,10 +18,11 @@
     <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NO XCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
       <a href="configurator.html" class="active" aria-current="page" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <a class="nav-cta" href="contact.html#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
@@ -30,38 +30,34 @@
     </button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Strona Główna</a>
-    <a href="configurator.html">Konfigurator</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="ambassador.html">Ambasador</a>
-    <a href="contact.html">Kontakt</a>
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+    <a class="mobile-cta" href="contact.html#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
     <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
   </div>
 </nav>
 
 <div class="config-page" role="main">
-  <!-- Progress Bar -->
-  <div class="progress-bar-wrapper" role="progressbar" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1">
+  <div class="progress-bar-wrapper" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1">
     <div class="progress-info">
-      <span id="stepLabel">Krok 1 / 10</span>
+      <span id="stepLabel">Krok 1 / 7</span>
       <span id="stepName">Produkt</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:10%"></div>
+      <div class="progress-fill" id="progressFill" style="width:14%"></div>
     </div>
-
   </div>
 
-  <!-- Step Content -->
   <div class="config-content" id="configContent" aria-live="polite"></div>
 
-  <!-- Command Bar -->
   <div class="config-bar">
     <button class="btn-back-config" id="btnBack" onclick="configBack()" disabled>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       <span id="backLabel">WSTECZ</span>
     </button>
-    <!-- NEW: validation error hint -->
     <span class="config-validation-hint" id="validationHint" aria-live="assertive"></span>
     <button class="btn-next-config" id="btnNext" onclick="configNext()">
       <span id="nextLabel">DALEJ</span>

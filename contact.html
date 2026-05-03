@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- NEW: SEO -->
-  <title>Kontakt | NO XCUSES — Skontaktuj się z nami</title>
-  <meta name="description" content="Skontaktuj się z NOXCUSES. Odpowiemy na pytania o odzież sportową na zamówienie. Email: noxcuses.kontakt@gmail.com, Tel: +48 794 100 353." />
+  <title>Kontakt | NO XCUSES — Darmowy projekt dla klubu</title>
+  <meta name="description" content="Chcesz darmowy projekt dla swojego klubu? Zostaw kontakt w NOXCUSES. Przygotujemy projekt stroju lub odzieży sportowej dla drużyny." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="contact.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Kontakt | NOXCUSES" />
-  <meta property="og:description" content="Masz pytania o odzież sportową na zamówienie? Napisz do nas." />
+  <meta property="og:description" content="Chcesz darmowy projekt dla swojego klubu? Zostaw kontakt." />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -22,10 +21,11 @@
     <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NO XCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
       <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" class="active" aria-current="page" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <a class="nav-cta" href="#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
@@ -33,31 +33,31 @@
     </button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Strona Główna</a>
-    <a href="configurator.html">Konfigurator</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="ambassador.html">Ambasador</a>
-    <a href="contact.html">Kontakt</a>
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+    <a class="mobile-cta" href="#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
     <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
   </div>
 </nav>
 
 <main>
-  <section class="page-section" aria-labelledby="conTitle">
+  <section class="page-section contact-page" aria-labelledby="conTitle">
     <div class="container">
       <header class="page-header">
         <p class="page-eyebrow">NO XCUSES</p>
-        <h1 class="page-title" id="conTitle">KONTAKT</h1>
-        <p class="page-sub" id="conSub">Masz pytania? Napisz do nas.</p>
+        <h1 class="page-title" id="conTitle">Kontakt</h1>
+        <p class="page-sub" id="conSub">Chcesz darmowy projekt dla swojego klubu? Zostaw kontakt</p>
       </header>
 
       <div class="contact-grid">
         <div>
-          <!-- NEW: success state -->
           <div id="conFormSuccess" class="form-success" style="display:none" role="alert">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            <h3 id="conSuccessTitle">Wiadomość wysłana!</h3>
-            <p id="conSuccessMsg">Odpowiemy najszybciej jak to możliwe.</p>
+            <h3 id="conSuccessTitle">Kontakt wysłany!</h3>
+            <p id="conSuccessMsg">Dziękujemy. Odezwiemy się i przygotujemy następny krok projektu.</p>
           </div>
           <form id="contactForm" novalidate>
             <div class="form-group">
@@ -71,24 +71,25 @@
               <span class="form-error" id="err-con-email"></span>
             </div>
             <div class="form-group">
-              <label class="form-label" for="con-subject" id="lConSubject">Temat</label>
+              <label class="form-label" for="con-subject" id="lConSubject">Klub / temat</label>
               <input class="form-input" type="text" id="con-subject" name="subject" required aria-required="true" />
               <span class="form-error" id="err-con-subject"></span>
             </div>
             <div class="form-group">
               <label class="form-label" for="con-message" id="lConMsg">Wiadomość</label>
-              <textarea class="form-textarea" id="con-message" name="message" rows="5" required aria-required="true"></textarea>
+              <textarea class="form-textarea" id="con-message" name="message" rows="5" required aria-required="true" placeholder="Napisz, jakiego projektu lub wyposażenia potrzebuje klub."></textarea>
               <span class="form-error" id="err-con-message"></span>
             </div>
             <button type="submit" class="btn-submit" id="conSubmit">
-              <span class="btn-text">WYŚLIJ</span>
+              <span class="btn-text">Otrzymaj projekt</span>
               <span class="btn-loader" aria-hidden="true"></span>
             </button>
           </form>
         </div>
 
         <div>
-          <h2 class="contact-info-title" id="conInfoTitle">DANE KONTAKTOWE</h2>
+          <h2 class="contact-info-title" id="conInfoTitle">Dane kontaktowe</h2>
+          <p class="contact-info-copy" data-pl="Jeśli wolisz, możesz też napisać bezpośrednio. Formularz jest jednak najszybszą drogą, żeby zebrać informacje potrzebne do darmowego projektu." data-en="If you prefer, you can also write directly. The form is the fastest way to collect details needed for the free design.">Jeśli wolisz, możesz też napisać bezpośrednio. Formularz jest jednak najszybszą drogą, żeby zebrać informacje potrzebne do darmowego projektu.</p>
           <address style="font-style:normal">
             <div class="contact-item">
               <div class="contact-icon" aria-hidden="true">
@@ -120,11 +121,13 @@
 <footer role="contentinfo">
   <div class="footer-logo">NO XCUSES</div>
   <nav class="footer-links" aria-label="Nawigacja w stopce">
-    <a href="index.html">Strona Główna</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="contact.html">Kontakt</a>
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
   </nav>
-  <p class="footer-copy">© <span id="footerYear">2025</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank">Made by ErikCoding</a></p>
+  <p class="footer-copy">© <span id="footerYear">2026</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank" rel="noopener">Made by ErikCoding</a></p>
 </footer>
 
 <script src="script.js"></script>
@@ -144,13 +147,14 @@ document.getElementById('contactForm').addEventListener('submit', async function
     email: this.email.value.trim(),
     subject: this.subject.value.trim(),
     message: this.message.value.trim(),
+    source: 'Podstrona kontakt',
     id: Date.now(), status: 'new', created_at: new Date().toISOString()
   };
 
   const saved = await saveToFirebase('contacts', data);
   if (!saved) {
     setLoading(btn, false);
-    showToast('Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.', true);
+    showToast('Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.', true);
     return;
   }
 

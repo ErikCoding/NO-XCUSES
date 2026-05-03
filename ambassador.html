@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- NEW: SEO -->
   <title>Program Ambasadorski | NO XCUSES — Zostań Ambasadorem</title>
-  <meta name="description" content="Dołącz do programu ambasadorów NOXCUSES. Ekskluzywne zniżki, ekspozycja w social media i dostęp do nowych kolekcji przed premierą." />
+  <meta name="description" content="Dołącz do programu współpracy NOXCUSES i rozwijaj markę razem z nami. Zniżki, ekspozycja i dostęp do nowych projektów przed premierą." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="ambassador.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Zostań Ambasadorem | NOXCUSES" />
-  <meta property="og:description" content="Dołącz do programu ambasadorów NOXCUSES i zdobądź ekskluzywne korzyści." />
+  <meta property="og:description" content="Dołącz do programu współpracy i rozwijaj markę razem z nami." />
   <meta property="og:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
 
   <link rel="stylesheet" href="styles.css" />
@@ -23,10 +22,11 @@
     <button class="nav-logo" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NO XCUSES</button>
     <div class="nav-links">
       <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+      <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
       <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" class="active" aria-current="page" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <a class="nav-cta" href="contact.html#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
@@ -34,84 +34,95 @@
     </button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Strona Główna</a>
-    <a href="configurator.html">Konfigurator</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="ambassador.html">Ambasador</a>
-    <a href="contact.html">Kontakt</a>
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+    <a class="mobile-cta" href="contact.html#contactForm" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
     <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile">EN</button>
   </div>
 </nav>
 
 <main>
-  <section class="page-section" aria-labelledby="ambTitle">
+  <section class="page-section ambassador-page" aria-labelledby="ambTitle">
     <div class="container">
-      <header class="page-header">
-        <p class="page-eyebrow">NO XCUSES</p>
-        <h1 class="page-title" id="ambTitle">ZOSTAŃ AMBASADOREM</h1>
-        <p class="page-sub" id="ambSub">Dołącz do programu ambasadorów NO XCUSES i zdobądź ekskluzywne korzyści.</p>
-      </header>
+      <div class="ambassador-hero-panel">
+        <header class="ambassador-copy">
+          <p class="page-eyebrow">NO XCUSES</p>
+          <h1 class="page-title" id="ambTitle">Zostań ambasadorem</h1>
+          <p class="page-sub" id="ambSub">Dołącz do programu współpracy i rozwijaj markę razem z nami.</p>
+          <a href="#ambForm" class="btn-primary" data-pl="Zgłoś współpracę" data-en="Submit collaboration">Zgłoś współpracę</a>
+        </header>
+      </div>
 
-      <div class="benefits-grid">
+      <div class="benefits-grid ambassador-benefits">
         <article class="benefit">
           <div class="benefit-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
           </div>
           <h2 class="benefit-title" id="ben1Title">Zniżki</h2>
-          <p class="benefit-desc" id="ben1Desc">Ekskluzywne ceny na wszystkie produkty NO XCUSES.</p>
+          <p class="benefit-desc" id="ben1Desc">Atrakcyjne ceny dla klubów i drużyn</p>
         </article>
         <article class="benefit">
           <div class="benefit-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
           <h2 class="benefit-title" id="ben2Title">Ekspozycja</h2>
-          <p class="benefit-desc" id="ben2Desc">Prezentujemy naszych ambasadorów w social media.</p>
+          <p class="benefit-desc" id="ben2Desc">Możliwość pokazania drużyny w naszych materiałach i social mediach</p>
         </article>
         <article class="benefit">
           <div class="benefit-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
-          <h2 class="benefit-title" id="ben3Title">Pierwsze Wersje</h2>
-          <p class="benefit-desc" id="ben3Desc">Dostęp do nowych kolekcji przed premierą.</p>
+          <h2 class="benefit-title" id="ben3Title">Pierwsze wersje</h2>
+          <p class="benefit-desc" id="ben3Desc">Dostęp do nowych projektów przed premierą</p>
         </article>
       </div>
 
-      <div class="form-wrapper">
-        <!-- NEW: form states (loading, success) -->
-        <div id="ambFormSuccess" class="form-success" style="display:none" role="alert">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          <h3 id="ambSuccessTitle">Aplikacja wysłana!</h3>
-          <p id="ambSuccessMsg">Dziękujemy za aplikację! Odezwiemy się wkrótce.</p>
+      <div class="ambassador-form-layout">
+        <div class="ambassador-form-copy">
+          <p class="section-kicker" data-pl="Współpraca" data-en="Collaboration">Współpraca</p>
+          <h2 data-pl="Opowiedz nam o klubie lub profilu" data-en="Tell us about your club or profile">Opowiedz nam o klubie lub profilu</h2>
+          <p data-pl="Zgłoszenie nie musi być długie. Wystarczy link, kilka zdań o drużynie i pomysł na wspólne działania." data-en="The submission does not need to be long. A link, a few sentences about the team and an idea for cooperation are enough.">Zgłoszenie nie musi być długie. Wystarczy link, kilka zdań o drużynie i pomysł na wspólne działania.</p>
         </div>
-        <form id="ambForm" novalidate>
-          <div class="form-group">
-            <label class="form-label" for="amb-name" id="lAmbName">Imię i nazwisko</label>
-            <input class="form-input" type="text" id="amb-name" name="name" autocomplete="name" required aria-required="true" />
-            <span class="form-error" id="err-amb-name"></span>
+
+        <div class="form-wrapper ambassador-form-card">
+          <div id="ambFormSuccess" class="form-success" style="display:none" role="alert">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <h3 id="ambSuccessTitle">Zgłoszenie wysłane!</h3>
+            <p id="ambSuccessMsg">Dziękujemy za wiadomość. Odezwiemy się w sprawie współpracy.</p>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="amb-email" id="lAmbEmail">E-mail</label>
-            <input class="form-input" type="email" id="amb-email" name="email" autocomplete="email" required aria-required="true" />
-            <span class="form-error" id="err-amb-email"></span>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="amb-social" id="lAmbSocial">Link do Social Media</label>
-            <input class="form-input" type="url" id="amb-social" name="social" placeholder="https://instagram.com/..." required aria-required="true" />
-            <span class="form-error" id="err-amb-social"></span>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="amb-team" id="lAmbTeam">Drużyna / Klub</label>
-            <input class="form-input" type="text" id="amb-team" name="team" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="amb-message" id="lAmbMsg">Wiadomość</label>
-            <textarea class="form-textarea" id="amb-message" name="message" rows="4"></textarea>
-          </div>
-          <button type="submit" class="btn-submit" id="ambSubmit">
-            <span class="btn-text">APLIKUJ</span>
-            <span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
+          <form id="ambForm" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="amb-name" id="lAmbName">Imię i nazwisko</label>
+              <input class="form-input" type="text" id="amb-name" name="name" autocomplete="name" required aria-required="true" />
+              <span class="form-error" id="err-amb-name"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="amb-email" id="lAmbEmail">E-mail</label>
+              <input class="form-input" type="email" id="amb-email" name="email" autocomplete="email" required aria-required="true" />
+              <span class="form-error" id="err-amb-email"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="amb-social" id="lAmbSocial">Link do Social Media</label>
+              <input class="form-input" type="url" id="amb-social" name="social" placeholder="https://instagram.com/..." required aria-required="true" />
+              <span class="form-error" id="err-amb-social"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="amb-team" id="lAmbTeam">Drużyna / Klub</label>
+              <input class="form-input" type="text" id="amb-team" name="team" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="amb-message" id="lAmbMsg">Wiadomość</label>
+              <textarea class="form-textarea" id="amb-message" name="message" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="ambSubmit">
+              <span class="btn-text">Zgłoś współpracę</span>
+              <span class="btn-loader" aria-hidden="true"></span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -122,11 +133,13 @@
 <footer role="contentinfo">
   <div class="footer-logo">NO XCUSES</div>
   <nav class="footer-links" aria-label="Nawigacja w stopce">
-    <a href="index.html">Strona Główna</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="contact.html">Kontakt</a>
+    <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
+    <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+    <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
   </nav>
-  <p class="footer-copy">© <span id="footerYear">2025</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank">Made by ErikCoding</a></p>
+  <p class="footer-copy">© <span id="footerYear">2026</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank" rel="noopener">Made by ErikCoding</a></p>
 </footer>
 
 <script src="script.js"></script>
@@ -153,7 +166,7 @@ document.getElementById('ambForm').addEventListener('submit', async function(e) 
   const saved = await saveToFirebase('ambassadors', data);
   if (!saved) {
     setLoading(btn, false);
-    showToast('Nie udało się wysłać aplikacji. Spróbuj ponownie za chwilę.', true);
+    showToast('Nie udało się wysłać zgłoszenia. Spróbuj ponownie za chwilę.', true);
     return;
   }
 

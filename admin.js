@@ -7,6 +7,8 @@
 let adminData = { orders: [], ambassadors: [], contacts: [] };
 let activeTab = 'orders';
 let currentUser = null;
+let authListenerStarted = false;
+let adminReadErrors = {};
 
 // ── DOM refs ─────────────────────────────────────────────────
 const loginScreen  = document.getElementById('loginScreen');
@@ -26,7 +28,8 @@ loginForm && loginForm.addEventListener('submit', async (e) => {
   btn.disabled = true;
   btn.textContent = '...';
 
-  if (!window._noxFirebaseReady || !window._noxAuthFns) {
+  const firebaseReady = await waitForAdminFirebase();
+  if (!firebaseReady || !window._noxAuthFns) {
     showLoginError('Firebase nie jest gotowy. Odśwież stronę i spróbuj ponownie.');
     btn.disabled = false;
     btn.textContent = 'ZALOGUJ';
@@ -66,14 +69,34 @@ function getAuthErrorMsg(code) {
   return map[code] || 'Błąd logowania. Sprawdź dane.';
 }
 
-// When Firebase is ready after page load, set up auth state listener
-window.addEventListener('noxFirebaseReady', () => {
+async function waitForAdminFirebase() {
+  if (window._noxFirebaseReady && window._noxDB && window._noxAuthFns) return true;
+  if (typeof window.noxFirebaseReady === 'function') return window.noxFirebaseReady();
+  return false;
+}
+
+function showLoginScreen() {
+  currentUser = null;
+  dashboard.style.display = 'none';
+  loginScreen.style.display = 'flex';
+}
+
+function setupAuthListener() {
+  if (authListenerStarted || !window._noxAuthFns || !window._noxAuth) return;
+  authListenerStarted = true;
   window._noxAuthFns.onAuthStateChanged(window._noxAuth, (user) => {
-    if (user && !currentUser) {
+    if (user && (!currentUser || currentUser.uid !== user.uid)) {
       currentUser = user;
       showDashboard(user.email);
+    } else if (!user && currentUser) {
+      showLoginScreen();
     }
   });
+}
+
+window.addEventListener('noxFirebaseReady', setupAuthListener);
+waitForAdminFirebase().then(ok => {
+  if (ok) setupAuthListener();
 });
 
 // ── Show dashboard after login ───────────────────────────────
@@ -90,16 +113,16 @@ async function adminLogout() {
   if (window._noxFirebaseReady && window._noxAuthFns) {
     await window._noxAuthFns.signOut(window._noxAuth);
   }
-  currentUser = null;
-  dashboard.style.display   = 'none';
-  loginScreen.style.display = 'flex';
+  showLoginScreen();
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
 }
 
 // ── Load data from Firestore ─────────────────────────────────
 async function loadAllData() {
-  if (window._noxFirebaseReady && window._noxDB) {
+  const firebaseReady = await waitForAdminFirebase();
+  adminReadErrors = {};
+  if (firebaseReady && window._noxDB) {
     adminData.orders      = await fetchCollection('submissions');
     adminData.ambassadors = await fetchCollection('ambassadors');
     adminData.contacts    = await fetchCollection('contacts');
@@ -125,7 +148,11 @@ async function fetchCollection(name) {
       };
     });
   } catch (err) {
-    console.warn('[NOX] fetchCollection error:', name, err.message);
+    adminReadErrors[name] = err.code || err.message || 'permission-denied';
+    console.warn('[NOX] fetchCollection error:', name, err.code || '', err.message, {
+      email: currentUser?.email || null,
+      uid: currentUser?.uid || null
+    });
     return [];
   }
 }
@@ -235,6 +262,17 @@ function renderAdminContent() {
 
   const el = document.getElementById('adminContent');
 
+  if (Object.keys(adminReadErrors).length) {
+    el.innerHTML = `
+      <div class="no-data">
+        Brak uprawnień do odczytu danych Firebase.<br>
+        Zalogowano jako: ${escapeHtml(currentUser?.email || 'brak e-maila')}<br>
+        UID: ${escapeHtml(currentUser?.uid || 'brak UID')}<br>
+        Sprawdź, czy ten e-mail jest wpisany w funkcji isAdmin() w Firestore Rules.
+      </div>`;
+    return;
+  }
+
   if (!items.length) {
     el.innerHTML = `<div class="no-data">Brak wyników.</div>`;
     return;
@@ -259,10 +297,9 @@ function renderCard(item) {
     fields = [
       ['Produkty',  item.products || item.product],
       ['Rękawy',    item.sleeve],
-      ['Krój',      item.fit],
       ['Kołnierz',  item.collar],
       ['Materiał',  item.material],
-      ['Branding',  item.branding],
+      ['Zdobienia', item.branding],
       ['Kolor główny', item.primaryColor],
       ['Kolor dodatkowy', item.secondaryColor],
       ['Ilość',     item.quantity],
@@ -280,7 +317,10 @@ function renderCard(item) {
     ];
   } else {
     fields = [
+      ['Źródło',    item.source],
       ['Temat',     item.subject],
+      ['Telefon',   item.phone],
+      ['Klub',      item.team],
       ['Wiadomość', item.message],
     ];
   }
@@ -370,7 +410,8 @@ async function markRead(id) {
   const item = list.find(i => String(i.id) === String(id));
   if (!item) return;
 
-  if (!window._noxFirebaseReady || !window._noxDB) {
+  const firebaseReady = await waitForAdminFirebase();
+  if (!firebaseReady || !window._noxDB) {
     alert('Firebase jest niedostępny. Nie można zapisać zmiany.');
     return;
   }
@@ -379,7 +420,10 @@ async function markRead(id) {
     const col = activeTab === 'orders' ? 'submissions'
               : activeTab === 'ambassadors' ? 'ambassadors' : 'contacts';
     const docRef = window._noxFS.doc(window._noxDB, col, id);
-    await window._noxFS.updateDoc(docRef, { status: 'read' });
+    await window._noxFS.updateDoc(docRef, {
+      status: 'read',
+      updated_at: window._noxFS.serverTimestamp()
+    });
     item.status = 'read';
     updateStats();
     renderAdminContent();
@@ -392,7 +436,8 @@ async function markRead(id) {
 async function deleteItem(id) {
   if (!confirm('Usunąć ten wpis?')) return;
 
-  if (!window._noxFirebaseReady || !window._noxDB) {
+  const firebaseReady = await waitForAdminFirebase();
+  if (!firebaseReady || !window._noxDB) {
     alert('Firebase jest niedostępny. Nie można usunąć wpisu.');
     return;
   }

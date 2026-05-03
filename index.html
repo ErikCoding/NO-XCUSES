@@ -4,36 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- NEW: SEO Meta Tags -->
-  <title>NO XCUSES | Premium Custom Sportswear — Odzież Sportowa na Zamówienie</title>
-  <meta name="description" content="NO`XCUSES — projektujemy i produkujemy premium odzież sportową na zamówienie. Koszulki, spodenki, skarpety dla drużyn i klubów. Sublimacja, haft, flex." />
-  <meta name="keywords" content="odzież sportowa na zamówienie, koszulki sportowe, stroje sportowe, sublimacja, haft sportowy, NOXCUSES" />
+  <title>NO XCUSES | Darmowy projekt stroju dla Twojego klubu</title>
+  <meta name="description" content="NO XCUSES przygotuje darmowy projekt stroju dla Twojego klubu. Indywidualne projekty, pełna personalizacja, stroje meczowe i wyposażenie dla drużyn." />
+  <meta name="keywords" content="darmowy projekt stroju, stroje piłkarskie dla klubów, odzież sportowa na zamówienie, stroje meczowe, NOXCUSES" />
   <meta name="author" content="NO XCUSES" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="./" />
 
-  <!-- NEW: Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="NOXCUSES | Premium Custom Sportswear" />
-  <meta property="og:description" content="Zaprojektuj własną odzież sportową najwyższej klasy. Koszulki, spodenki i więcej dla Twojej drużyny." />
+  <meta property="og:title" content="NO XCUSES | Darmowy projekt stroju dla klubu" />
+  <meta property="og:description" content="Zostaw kontakt, a przygotujemy indywidualny projekt stroju dla Twojej drużyny." />
   <meta property="og:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
   <meta property="og:locale" content="pl_PL" />
 
-  <!-- NEW: Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="NO XCUSES | Premium Custom Sportswear" />
-  <meta name="twitter:description" content="Zaprojektuj własną odzież sportową najwyższej klasy." />
+  <meta name="twitter:title" content="NO XCUSES | Darmowy projekt stroju dla klubu" />
+  <meta name="twitter:description" content="Indywidualne projekty + pełna personalizacja dla klubów piłkarskich." />
   <meta name="twitter:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
 
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- NEW: Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "NOXCUSES",
-    "description": "Premium custom sportswear manufacturer",
+    "description": "Custom sportswear manufacturer for clubs and teams",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+48-794-100-353",
@@ -45,16 +41,16 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Główna nawigacja">
   <div class="navbar-inner">
     <button class="nav-logo" id="logoBtn" onclick="logoClick()" aria-label="NOXCUSES — strona główna">NO XCUSES</button>
     <div class="nav-links">
       <a href="index.html" class="active" data-pl="Strona Główna" data-en="Home" aria-current="page">Strona Główna</a>
+      <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
       <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-      <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
       <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
       <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+      <a class="nav-cta" href="#homeContact" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
       <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Zmień język">EN</button>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Otwórz menu" aria-expanded="false">
@@ -63,144 +59,296 @@
   </div>
   <div class="mobile-menu" id="mobileMenu" role="menu">
     <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
     <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-    <a href="portfolio.html" data-pl="Portfolio" data-en="Portfolio">Portfolio</a>
-    <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
     <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+    <a class="mobile-cta" href="#homeContact" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</a>
     <button class="lang-btn" onclick="toggleLang()" id="langBtnMobile" aria-label="Zmień język">EN</button>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" aria-label="Hero — NOXCUSES Premium Sportswear">
+<section class="hero" aria-label="Hero — darmowy projekt stroju NOXCUSES">
   <div class="hero-bg" role="img" aria-label="Zawodnik w odzieży NOXCUSES">
-    <!-- UPDATED: loading="eager" for LCP, explicit width/height for CLS -->
     <img
       src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png"
-      alt="Zawodnik w koszulce NOXCUSES — premium custom sportswear"
+      alt="Zawodnik w koszulce NOXCUSES"
       loading="eager"
       width="1920" height="1080"
     />
   </div>
   <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Premium Custom Sportswear</p>
-    <!-- UPDATED: h1 semantic -->
-    <h1 class="hero-title" id="heroTitle">ZWYCIĘSTWO NIE ZNA WYMÓWEK</h1>
-    <p class="hero-sub" id="heroSub">Zaprojektuj własną odzież sportową najwyższej klasy.</p>
-    <a href="configurator.html" class="btn-primary" id="heroCta" aria-label="Przejdź do konfiguratora i rozpocznij projekt">
-      ROZPOCZNIJ PROJEKT
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </a>
+  <div class="hero-content hero-content-wide">
+    <div class="hero-copy">
+      <p class="hero-eyebrow" data-pl="Dla klubów piłkarskich" data-en="For football clubs">Dla klubów piłkarskich</p>
+      <h1 class="hero-title" id="heroTitle">Darmowy projekt stroju dla Twojego klubu</h1>
+      <p class="hero-sub" id="heroSub">Indywidualne projekty + pełna personalizacja</p>
+      <p class="hero-motto" data-pl="Zwycięstwo nie zna wymówek" data-en="Winning has no excuses">Zwycięstwo nie zna wymówek</p>
+      <div class="hero-action-row">
+        <a href="#homeContact" class="btn-primary" id="heroCta" aria-label="Przejdź do formularza i otrzymaj darmowy projekt">
+          <span data-pl="Otrzymaj darmowy projekt" data-en="Get a free design">Otrzymaj darmowy projekt</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<section class="audience-section" aria-labelledby="audienceTitle">
+  <div class="container split-layout">
+    <div class="split-copy">
+      <p class="section-kicker" data-pl="Dla kogo" data-en="Who it is for">Dla kogo</p>
+      <h2 class="section-title section-title-left" id="audienceTitle" data-pl="Dla klubów piłkarskich" data-en="For football clubs">Dla klubów piłkarskich</h2>
+      <p class="section-lead" data-pl="Tworzymy stroje i odzież sportową dla klubów – od projektu po produkcję. Każdy zestaw dopasowany indywidualnie pod drużynę." data-en="We create kits and sportswear for clubs from design to production. Every set is tailored individually to the team.">Tworzymy stroje i odzież sportową dla klubów – od projektu po produkcję. Każdy zestaw dopasowany indywidualnie pod drużynę.</p>
+      <p class="section-text" data-pl="Wystarczy, że opiszecie swój klub, kolory, herb i potrzeby. My przygotujemy kierunek wizualny, który pomaga zobaczyć komplet jeszcze przed decyzją o realizacji." data-en="Tell us about your club, colors, crest and needs. We prepare a visual direction so you can see the kit before deciding on production.">Wystarczy, że opiszecie swój klub, kolory, herb i potrzeby. My przygotujemy kierunek wizualny, który pomaga zobaczyć komplet jeszcze przed decyzją o realizacji.</p>
+    </div>
+    <div class="club-visual" aria-hidden="true">
+      <div class="club-card club-card-main">
+        <span>NOX</span>
+        <strong>CLUB KIT</strong>
+        <small>custom concept</small>
+      </div>
+      <div class="club-card club-card-float">01</div>
+      <div class="club-lines"></div>
+    </div>
+  </div>
+</section>
+
 <section class="how-section" aria-labelledby="howTitle">
   <div class="container">
-    <h2 class="section-title" id="howTitle">JAK TO DZIAŁA</h2>
+    <p class="section-kicker centered" data-pl="Proces" data-en="Process">Proces</p>
+    <h2 class="section-title" id="howTitle">Jak to działa</h2>
     <div class="how-grid">
       <article class="how-step">
-        <div class="how-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><path d="M10 14 21 3"/><path d="M21 16v5H3V3h5"/></svg>
-        </div>
-        <h3 class="how-step-title" id="how1Title">01 — WYBIERZ</h3>
-        <p class="how-step-desc" id="how1Desc">Wybierz typ produktu, krój i materiał w naszym konfiguratorze.</p>
+        <div class="how-number">01</div>
+        <h3 class="how-step-title" id="how1Title">Zostawiasz kontakt</h3>
+        <p class="how-step-desc" id="how1Desc">Krótko opisujesz swój klub, potrzeby drużyny, kolory i produkty, które chcesz przygotować.</p>
       </article>
       <article class="how-step">
-        <div class="how-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-        </div>
-        <h3 class="how-step-title" id="how2Title">02 — ZAPROJEKTUJ</h3>
-        <p class="how-step-desc" id="how2Desc">Dodaj kolory, logo i branding — zrobimy resztę.</p>
+        <div class="how-number">02</div>
+        <h3 class="how-step-title" id="how2Title">Otrzymujesz projekt za darmo</h3>
+        <p class="how-step-desc" id="how2Desc">Przygotowujemy wizualizację pod Was, tak aby od razu było widać styl kompletu.</p>
       </article>
       <article class="how-step">
-        <div class="how-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/></svg>
-        </div>
-        <h3 class="how-step-title" id="how3Title">03 — ZAMÓW</h3>
-        <p class="how-step-desc" id="how3Desc">Złóż zamówienie — dostarczymy je prosto do Ciebie.</p>
+        <div class="how-number">03</div>
+        <h3 class="how-step-title" id="how3Title">Decydujesz</h3>
+        <p class="how-step-desc" id="how3Desc">Jeśli projekt się podoba — dopracowujemy szczegóły i przechodzimy do realizacji.</p>
       </article>
+    </div>
+    <div class="section-actions centered">
+      <a href="#homeContact" class="btn-primary btn-dark" data-pl="Zacznij projekt" data-en="Start a design">Zacznij projekt</a>
     </div>
   </div>
 </section>
 
-<!-- GALLERY -->
+<section class="free-project-section" aria-labelledby="freeProjectTitle">
+  <div class="container">
+    <div class="free-project-card">
+      <div>
+        <p class="section-kicker" data-pl="Projekt bez ryzyka" data-en="Risk-free design">Projekt bez ryzyka</p>
+        <h2 class="section-title section-title-left" id="freeProjectTitle" data-pl="Najpierw zobacz efekt, potem decyduj" data-en="See the result before you decide">Najpierw zobacz efekt, potem decyduj</h2>
+        <p class="section-lead" data-pl="Przygotujemy dla Was projekt stroju dopasowany pod klub — całkowicie za darmo. Dzięki temu zobaczycie efekt przed podjęciem decyzji." data-en="We will prepare a kit design tailored to your club completely for free. This lets you see the result before making a decision.">Przygotujemy dla Was projekt stroju dopasowany pod klub — całkowicie za darmo. Dzięki temu zobaczycie efekt przed podjęciem decyzji.</p>
+      </div>
+      <a href="#homeContact" class="btn-primary" data-pl="Otrzymaj projekt" data-en="Get a design">Otrzymaj projekt</a>
+    </div>
+  </div>
+</section>
+
 <section class="gallery-section" aria-labelledby="galleryTitle">
   <div class="container">
-    <h2 class="section-title" id="galleryTitle">NASZE REALIZACJE</h2>
+    <p class="section-kicker centered" data-pl="Inspiracje" data-en="Inspiration">Inspiracje</p>
+    <h2 class="section-title" id="galleryTitle">Projekty</h2>
     <div class="gallery-grid">
-      <!-- UPDATED: descriptive alt texts, loading="lazy" -->
-      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/1b9ec1ccb_generated_0de49808.png" alt="Koszulka sportowa NOXCUSES — realizacja dla drużyny" loading="lazy" /></div>
-      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/ffcb7bfd2_generated_e099dabf.png" alt="Spodenki sportowe NOXCUSES — custom design" loading="lazy" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/1b9ec1ccb_generated_0de49808.png" alt="Koszulka sportowa NOXCUSES — projekt dla drużyny" loading="lazy" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/ffcb7bfd2_generated_e099dabf.png" alt="Spodenki sportowe NOXCUSES — projekt klubowy" loading="lazy" /></div>
       <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/4e04a6548_generated_06a75e59.png" alt="Komplet sportowy NOXCUSES dla klubu piłkarskiego" loading="lazy" /></div>
-      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/413efdf92_generated_56c39984.png" alt="Strój sportowy NOXCUSES — sublimacja fullprint" loading="lazy" /></div>
+      <div class="gallery-item"><img src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/413efdf92_generated_56c39984.png" alt="Strój sportowy NOXCUSES — personalizowany projekt" loading="lazy" /></div>
     </div>
     <div class="gallery-more">
-      <a href="portfolio.html" id="galleryMore" aria-label="Zobacz pełne portfolio realizacji NOXCUSES">Portfolio →</a>
+      <a href="projekty.html" id="galleryMore" aria-label="Zobacz więcej projektów NOXCUSES">Zobacz więcej projektów</a>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
+<section class="teamwear-section" aria-labelledby="teamwearTitle">
+  <div class="container teamwear-layout">
+    <div>
+      <p class="section-kicker" data-pl="Teamwear" data-en="Teamwear">Teamwear</p>
+      <h2 class="section-title section-title-left" id="teamwearTitle" data-pl="Pełne wyposażenie dla klubów" data-en="Full equipment for clubs">Pełne wyposażenie dla klubów</h2>
+      <p class="section-lead" data-pl="Oprócz strojów meczowych oferujemy też elementy, które budują spójny wygląd drużyny na treningu, w podróży i poza boiskiem." data-en="Besides match kits, we offer items that build a consistent team look during training, travel and off the pitch.">Oprócz strojów meczowych oferujemy też elementy, które budują spójny wygląd drużyny na treningu, w podróży i poza boiskiem.</p>
+      <a href="configurator.html" class="btn-primary btn-dark" data-pl="Zobacz pełną ofertę" data-en="See full offer">Zobacz pełną ofertę</a>
+    </div>
+    <div class="teamwear-card">
+      <ul class="teamwear-list">
+        <li data-pl="odzież treningową" data-en="training apparel">odzież treningową</li>
+        <li data-pl="dresy i bluzy" data-en="tracksuits and hoodies">dresy i bluzy</li>
+        <li data-pl="torby, plecaki" data-en="bags and backpacks">torby, plecaki</li>
+        <li data-pl="akcesoria sportowe" data-en="sports accessories">akcesoria sportowe</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="why-section" aria-labelledby="whyTitle">
+  <div class="container">
+    <p class="section-kicker centered" data-pl="Dlaczego my" data-en="Why us">Dlaczego my</p>
+    <h2 class="section-title" id="whyTitle" data-pl="Prosto, konkretnie, pod klub" data-en="Simple, clear, built for clubs">Prosto, konkretnie, pod klub</h2>
+    <div class="why-grid">
+      <article class="why-item"><span>PL</span><h3 data-pl="Polska marka" data-en="Polish brand">Polska marka</h3></article>
+      <article class="why-item"><span>01</span><h3 data-pl="Projekty od podstaw" data-en="Designs from scratch">Projekty od podstaw</h3></article>
+      <article class="why-item"><span>360</span><h3 data-pl="Pełna personalizacja" data-en="Full personalization">Pełna personalizacja</h3></article>
+      <article class="why-item"><span>24h</span><h3 data-pl="Szybki kontakt" data-en="Fast contact">Szybki kontakt</h3></article>
+    </div>
+  </div>
+</section>
+
+<section class="lead-section" id="homeContact" aria-labelledby="leadTitle">
+  <div class="container lead-layout">
+    <div class="lead-copy">
+      <p class="section-kicker" data-pl="Darmowy projekt" data-en="Free design">Darmowy projekt</p>
+      <h2 class="section-title section-title-left" id="leadTitle" data-pl="Zostaw kontakt — przygotujemy projekt pod Wasz klub" data-en="Leave your contact details — we will prepare a club design">Zostaw kontakt — przygotujemy projekt pod Wasz klub</h2>
+      <p class="section-lead" data-pl="Napisz krótko, jakiego stroju lub wyposażenia potrzebuje drużyna. Odezwiemy się, dopytamy o detale i przygotujemy pierwszy kierunek projektu." data-en="Briefly describe what kit or equipment your team needs. We will get back to you, ask for details and prepare the first design direction.">Napisz krótko, jakiego stroju lub wyposażenia potrzebuje drużyna. Odezwiemy się, dopytamy o detale i przygotujemy pierwszy kierunek projektu.</p>
+    </div>
+    <div class="lead-card">
+      <div id="homeLeadSuccess" class="form-success" style="display:none" role="alert">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <h3 data-pl="Kontakt zapisany!" data-en="Contact saved!">Kontakt zapisany!</h3>
+        <p data-pl="Dzięki. Odezwiemy się i przygotujemy kolejny krok projektu." data-en="Thanks. We will get back to you and prepare the next design step.">Dzięki. Odezwiemy się i przygotujemy kolejny krok projektu.</p>
+      </div>
+      <form id="homeLeadForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="lead-name" data-pl="Imię i nazwisko" data-en="Full name">Imię i nazwisko</label>
+          <input class="form-input" type="text" id="lead-name" name="name" autocomplete="name" required aria-required="true" />
+          <span class="form-error" id="err-lead-name"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-email" data-pl="E-mail" data-en="Email">E-mail</label>
+          <input class="form-input" type="email" id="lead-email" name="email" autocomplete="email" required aria-required="true" />
+          <span class="form-error" id="err-lead-email"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-phone" data-pl="Telefon" data-en="Phone">Telefon</label>
+          <input class="form-input" type="tel" id="lead-phone" name="phone" autocomplete="tel" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-team" data-pl="Klub / drużyna" data-en="Club / team">Klub / drużyna</label>
+          <input class="form-input" type="text" id="lead-team" name="team" required aria-required="true" />
+          <span class="form-error" id="err-lead-team"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lead-message" data-pl="Krótki opis" data-en="Short description">Krótki opis</label>
+          <textarea class="form-textarea" id="lead-message" name="message" rows="4" placeholder="np. stroje meczowe dla 18 zawodników, kolory czerwony/czarny"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="leadSubmit">
+          <span class="btn-text" data-pl="Otrzymaj projekt" data-en="Get a design">Otrzymaj projekt</span>
+          <span class="btn-loader" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section class="faq-section" aria-labelledby="faqTitle">
   <div class="container faq-layout">
     <div class="faq-intro">
       <p class="faq-eyebrow" data-pl="FAQ" data-en="FAQ">FAQ</p>
       <h2 class="faq-title" id="faqTitle" data-pl="NAJCZĘŚCIEJ ZADAWANE PYTANIA" data-en="FREQUENTLY ASKED QUESTIONS">NAJCZĘŚCIEJ ZADAWANE PYTANIA</h2>
-      <p class="faq-sub" data-pl="Krótko i konkretnie o zamówieniach, projektach i realizacji odzieży NOXCUSES." data-en="Clear answers about orders, design files and NOXCUSES production.">Krótko i konkretnie o zamówieniach, projektach i realizacji odzieży NOXCUSES.</p>
-      <a class="faq-contact-link" href="contact.html" data-pl="MASZ INNE PYTANIE?" data-en="HAVE ANOTHER QUESTION?">MASZ INNE PYTANIE?</a>
+      <p class="faq-sub" data-pl="Krótko i konkretnie o darmowym projekcie, personalizacji i zamówieniach klubowych NOXCUSES." data-en="Clear answers about free design, personalization and NOXCUSES club orders.">Krótko i konkretnie o darmowym projekcie, personalizacji i zamówieniach klubowych NOXCUSES.</p>
+      <a class="faq-contact-link" href="#homeContact" data-pl="CHCĘ DARMOWY PROJEKT" data-en="I WANT A FREE DESIGN">CHCĘ DARMOWY PROJEKT</a>
     </div>
 
     <div class="faq-list">
       <details class="faq-item" open>
-        <summary><span data-pl="Ile trwa realizacja zamówienia?" data-en="How long does an order take?">Ile trwa realizacja zamówienia?</span></summary>
-        <p data-pl="Standardowy czas produkcji ustalamy indywidualnie po zaakceptowaniu projektu i szczegółów zamówienia. Przy pierwszym kontakcie podamy realny termin dla Twojej drużyny." data-en="Production time is confirmed individually after the design and order details are approved. During the first contact, we will give you a realistic timeline for your team.">Standardowy czas produkcji ustalamy indywidualnie po zaakceptowaniu projektu i szczegółów zamówienia. Przy pierwszym kontakcie podamy realny termin dla Twojej drużyny.</p>
+        <summary><span data-pl="Czy projekt naprawdę jest darmowy?" data-en="Is the design really free?">Czy projekt naprawdę jest darmowy?</span></summary>
+        <p data-pl="Tak. Przygotowujemy wstępny projekt dopasowany pod klub bez opłaty, żebyście mogli zobaczyć kierunek wizualny przed decyzją o produkcji." data-en="Yes. We prepare an initial club-tailored design for free so you can see the visual direction before deciding on production.">Tak. Przygotowujemy wstępny projekt dopasowany pod klub bez opłaty, żebyście mogli zobaczyć kierunek wizualny przed decyzją o produkcji.</p>
       </details>
 
       <details class="faq-item">
-        <summary><span data-pl="Czy mogę zamówić własny projekt graficzny?" data-en="Can I order my own graphic design?">Czy mogę zamówić własny projekt graficzny?</span></summary>
-        <p data-pl="Tak. Możesz przesłać gotowy projekt, inspiracje, kolory klubu i logo. Jeśli masz tylko ogólny pomysł, pomożemy przełożyć go na spójny wygląd kompletu." data-en="Yes. You can send a finished design, references, club colors and logo. If you only have a rough idea, we can help turn it into a cohesive kit.">Tak. Możesz przesłać gotowy projekt, inspiracje, kolory klubu i logo. Jeśli masz tylko ogólny pomysł, pomożemy przełożyć go na spójny wygląd kompletu.</p>
+        <summary><span data-pl="Co warto wysłać na start?" data-en="What should we send first?">Co warto wysłać na start?</span></summary>
+        <p data-pl="Najlepiej podać nazwę klubu, kolory, herb lub logo, liczbę zawodników i krótko opisać, czy chodzi o stroje meczowe, treningowe czy pełne wyposażenie." data-en="It is best to share the club name, colors, crest or logo, number of players and briefly describe whether you need match kits, training apparel or full equipment.">Najlepiej podać nazwę klubu, kolory, herb lub logo, liczbę zawodników i krótko opisać, czy chodzi o stroje meczowe, treningowe czy pełne wyposażenie.</p>
       </details>
 
       <details class="faq-item">
-        <summary><span data-pl="Jakie pliki z logo są najlepsze?" data-en="What logo files work best?">Jakie pliki z logo są najlepsze?</span></summary>
-        <p data-pl="Najlepiej sprawdzają się pliki wektorowe SVG, PDF, AI lub EPS. Jeśli masz tylko PNG albo JPG, wyślij je mimo wszystko - sprawdzimy jakość i podpowiemy kolejny krok." data-en="Vector files such as SVG, PDF, AI or EPS work best. If you only have PNG or JPG, send them anyway - we will check the quality and suggest the next step.">Najlepiej sprawdzają się pliki wektorowe SVG, PDF, AI lub EPS. Jeśli masz tylko PNG albo JPG, wyślij je mimo wszystko - sprawdzimy jakość i podpowiemy kolejny krok.</p>
+        <summary><span data-pl="Czy możemy spersonalizować numery i sponsorów?" data-en="Can we personalize numbers and sponsors?">Czy możemy spersonalizować numery i sponsorów?</span></summary>
+        <p data-pl="Tak. Numery, nazwiska, logotypy sponsorów, herb klubu i kolory możemy dopasować do konkretnego projektu oraz wybranej techniki zdobienia." data-en="Yes. Numbers, names, sponsor logos, club crest and colors can be matched to the design and selected decoration technique.">Tak. Numery, nazwiska, logotypy sponsorów, herb klubu i kolory możemy dopasować do konkretnego projektu oraz wybranej techniki zdobienia.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary><span data-pl="Jakie produkty można zamówić?" data-en="What products can we order?">Jakie produkty można zamówić?</span></summary>
+        <p data-pl="Przygotowujemy stroje meczowe, koszulki treningowe, spodenki, getry, bluzy, spodnie treningowe, polo oraz akcesoria takie jak torby, plecaki, worki czy piłki." data-en="We prepare match kits, training shirts, shorts, socks, hoodies, training pants, polos and accessories such as bags, backpacks, gym sacks and balls.">Przygotowujemy stroje meczowe, koszulki treningowe, spodenki, getry, bluzy, spodnie treningowe, polo oraz akcesoria takie jak torby, plecaki, worki czy piłki.</p>
       </details>
 
       <details class="faq-item">
         <summary><span data-pl="Czy pomagacie dobrać rozmiary?" data-en="Do you help with sizing?">Czy pomagacie dobrać rozmiary?</span></summary>
-        <p data-pl="Tak, pomagamy dobrać rozmiary pod skład drużyny i typ produktu. Możesz zebrać rozmiarówkę od zawodników, a my dopasujemy ją do wybranego kroju." data-en="Yes, we help match sizes to the team roster and product type. You can collect sizes from players, and we will align them with the selected fit.">Tak, pomagamy dobrać rozmiary pod skład drużyny i typ produktu. Możesz zebrać rozmiarówkę od zawodników, a my dopasujemy ją do wybranego kroju.</p>
+        <p data-pl="Tak, pomagamy dobrać rozmiary pod skład drużyny i typ produktu. Możesz zebrać rozmiarówkę od zawodników, a my dopasujemy ją do wybranego rozwiązania." data-en="Yes, we help match sizes to the team roster and product type. You can collect sizes from players and we will align them with the selected solution.">Tak, pomagamy dobrać rozmiary pod skład drużyny i typ produktu. Możesz zebrać rozmiarówkę od zawodników, a my dopasujemy ją do wybranego rozwiązania.</p>
       </details>
 
       <details class="faq-item">
-        <summary><span data-pl="Czy można domówić pojedyncze sztuki później?" data-en="Can we reorder single pieces later?">Czy można domówić pojedyncze sztuki później?</span></summary>
-        <p data-pl="W większości przypadków tak. Zachowujemy ustalenia projektowe, dzięki czemu łatwiej odtworzyć komplet przy kolejnych zamówieniach lub uzupełnieniach składu." data-en="In most cases, yes. We keep the design details, making it easier to recreate the kit for future orders or roster updates.">W większości przypadków tak. Zachowujemy ustalenia projektowe, dzięki czemu łatwiej odtworzyć komplet przy kolejnych zamówieniach lub uzupełnieniach składu.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary><span data-pl="Od czego zacząć zamówienie?" data-en="How do I start an order?">Od czego zacząć zamówienie?</span></summary>
-        <p data-pl="Najprościej przejść do konfiguratora, wybrać produkt i zostawić dane kontaktowe. Możesz też napisać przez formularz kontaktowy, jeśli chcesz najpierw omówić szczegóły." data-en="The easiest way is to open the configurator, select a product and leave your contact details. You can also use the contact form if you want to discuss details first.">Najprościej przejść do konfiguratora, wybrać produkt i zostawić dane kontaktowe. Możesz też napisać przez formularz kontaktowy, jeśli chcesz najpierw omówić szczegóły.</p>
+        <summary><span data-pl="Od czego zacząć?" data-en="How do we start?">Od czego zacząć?</span></summary>
+        <p data-pl="Najprościej zostawić kontakt w formularzu lub przejść przez konfigurator. Po zgłoszeniu odezwiemy się, dopytamy o szczegóły i przygotujemy następny krok." data-en="The easiest way is to leave your contact details in the form or go through the configurator. After submission, we will get back to you, ask for details and prepare the next step.">Najprościej zostawić kontakt w formularzu lub przejść przez konfigurator. Po zgłoszeniu odezwiemy się, dopytamy o szczegóły i przygotujemy następny krok.</p>
       </details>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer role="contentinfo">
   <div class="footer-logo" aria-label="NOXCUSES">NO XCUSES</div>
   <nav class="footer-links" aria-label="Nawigacja w stopce">
     <a href="index.html" data-pl="Strona Główna" data-en="Home">Strona Główna</a>
+    <a href="projekty.html" data-pl="Projekty" data-en="Projects">Projekty</a>
     <a href="configurator.html" data-pl="Konfigurator" data-en="Configurator">Konfigurator</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
+      <a href="ambassador.html" data-pl="Ambasador" data-en="Ambassador">Ambasador</a>
     <a href="contact.html" data-pl="Kontakt" data-en="Contact">Kontakt</a>
   </nav>
-  <p class="footer-copy">© <span id="footerYear">2025</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank">Made by ErikCoding</a></p>
+  <p class="footer-copy">© <span id="footerYear">2026</span> NO XCUSES. <span id="footerRights">Wszelkie prawa zastrzeżone.</span><br><a href="https://www.instagram.com/erikcoding/" target="_blank" rel="noopener">Made by ErikCoding</a></p>
 </footer>
 
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
 <script src="script.js"></script>
-<!-- NEW: dynamic footer year -->
-<script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+<script src="firebase-config.js"></script>
+<script>
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+const homeLeadForm = document.getElementById('homeLeadForm');
+if (homeLeadForm) {
+  homeLeadForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateForm(this)) return;
+
+    const btn = document.getElementById('leadSubmit');
+    setLoading(btn, true);
+
+    const phone = this.phone.value.trim();
+    const team = this.team.value.trim();
+    const message = this.message.value.trim();
+    const data = {
+      name: this.name.value.trim(),
+      email: this.email.value.trim(),
+      phone,
+      team,
+      subject: 'Darmowy projekt stroju - strona główna',
+      message: [
+        `Klub / drużyna: ${team || '—'}`,
+        `Telefon: ${phone || '—'}`,
+        `Opis: ${message || '—'}`
+      ].join('\n'),
+      source: 'Strona główna - darmowy projekt',
+      id: Date.now(), status: 'new', created_at: new Date().toISOString()
+    };
+
+    const saved = await saveToFirebase('contacts', data);
+    if (!saved) {
+      setLoading(btn, false);
+      showToast(getLang() === 'pl' ? 'Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.' : 'Could not send the form. Please try again in a moment.', true);
+      return;
+    }
+
+    setLoading(btn, false);
+    this.style.display = 'none';
+    document.getElementById('homeLeadSuccess').style.display = 'flex';
+  });
+}
+</script>
 </body>
 </html>
