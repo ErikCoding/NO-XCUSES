@@ -1,10 +1,11 @@
 // ============ CONFIGURATOR ============
 const IMGS = {
-  raglan: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/138ee1280_generated_1b223e25.png',
-  setin: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/20815eea6_generated_995ca6db.png',
-  vneck: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c0edb73f2_generated_41fd7c5d.png',
-  round: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/05112bbce_generated_004ef73e.png',
-  polo: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/993b6ba8d_generated_9d05dd32.png',
+  raglan: 'raglan_sleeves.png',
+  setin: 'standard_sleeves.png',
+  vneck: 'v-neck.png',
+  round: 'crewneck.png',
+  polo: 'polo_standard.png',
+  vneckpolo: 'v-neck_polo.png',
   sublimation: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/d92aadc91_generated_bccb5504.png',
   embroidery: 'https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/1fa86f021_generated_a254fe9e.png',
   flex: 'https://static.wixstatic.com/media/12d367_4f26ccd17f8f4e3a8958306ea08c2332~mv2.png',
@@ -25,14 +26,42 @@ const PRODUCT_GROUPS = [
     titlePl: 'Odzież',
     titleEn: 'Clothing',
     items: [
-      { value: 'match-kit', labelPl: 'Stroje meczowe', labelEn: 'Match kits', short: 'KIT' },
+      { value: 'home-shirt', labelPl: 'Koszulka domowa', labelEn: 'Home shirt', short: 'HOME' },
+      { value: 'away-shirt', labelPl: 'Koszulka wyjazdowa', labelEn: 'Away shirt', short: 'AWAY' },
       { value: 'training-shirt', labelPl: 'Koszulki treningowe', labelEn: 'Training shirts', short: 'TRN' },
-      { value: 'shorts', labelPl: 'Spodenki', labelEn: 'Shorts', short: 'SH' },
-      { value: 'socks', labelPl: 'Getry / skarpety', labelEn: 'Socks', short: 'SOX' },
+      { value: 'training-top', labelPl: 'Training Top', labelEn: 'Training Top', short: 'TOP' },
       { value: 'training-hoodie', labelPl: 'Bluza treningowa', labelEn: 'Training hoodie', short: 'HD' },
       { value: 'training-pants', labelPl: 'Spodnie treningowe', labelEn: 'Training pants', short: 'PNT' },
-      { value: 'quarter-zip', labelPl: 'Bluza zip 1/4', labelEn: '1/4 zip top', short: 'ZIP' },
       { value: 'polo-shirt', labelPl: 'Koszulka polo', labelEn: 'Polo shirt', short: 'POLO' }
+    ]
+  },
+  {
+    key: 'shorts',
+    titlePl: 'Spodenki',
+    titleEn: 'Shorts',
+    items: [
+      { value: 'training-shorts', labelPl: 'Spodenki treningowe', labelEn: 'Training shorts', short: 'SH-T' },
+      { value: 'home-shorts', labelPl: 'Spodenki meczowe domowe', labelEn: 'Home match shorts', short: 'SH-H' },
+      { value: 'away-shorts', labelPl: 'Spodenki meczowe wyjazdowe', labelEn: 'Away match shorts', short: 'SH-A' }
+    ]
+  },
+  {
+    key: 'socks',
+    titlePl: 'Getry / Skarpety',
+    titleEn: 'Socks / Gaiters',
+    items: [
+      { value: 'match-gaiters', labelPl: 'Getry meczowe', labelEn: 'Match gaiters', short: 'G-M' },
+      { value: 'goalkeeper-gaiters', labelPl: 'Getry bramkarskie', labelEn: 'Goalkeeper gaiters', short: 'G-GK' },
+      { value: 'anti-slip-socks', labelPl: 'Skarpety antypoślizgowe', labelEn: 'Anti-slip socks', short: 'SOX' }
+    ]
+  },
+  {
+    key: 'goalkeeper',
+    titlePl: 'Bramkarz',
+    titleEn: 'Goalkeeper',
+    items: [
+      { value: 'goalkeeper-shirt', labelPl: 'Koszulka bramkarska', labelEn: 'Goalkeeper shirt', short: 'GK' },
+      { value: 'goalkeeper-shirt-long', labelPl: 'Koszulka bramkarska długi rękaw', labelEn: 'Goalkeeper shirt long sleeve', short: 'GK-L' }
     ]
   },
   {
@@ -43,26 +72,55 @@ const PRODUCT_GROUPS = [
       { value: 'backpack', labelPl: 'Plecak', labelEn: 'Backpack', short: 'BAG' },
       { value: 'duffel-bag', labelPl: 'Torba', labelEn: 'Duffle bag', short: 'DUF' },
       { value: 'gym-sack', labelPl: 'Worek', labelEn: 'Gym sack', short: 'SCK' },
-      { value: 'ball', labelPl: 'Piłka', labelEn: 'Ball', short: 'BAL' },
-      { value: 'shin-guards', labelPl: 'Ochraniacze', labelEn: 'Shin guards', short: 'PRO' }
-    ]
-  },
-  {
-    key: 'sets',
-    titlePl: 'Dodatkowo',
-    titleEn: 'Additionally',
-    items: [
-      { value: 'match-set', labelPl: 'Komplet meczowy (koszulka + spodenki + getry)', labelEn: 'Match set (shirt + shorts + socks)', short: 'SET', wide: true }
+      { value: 'training-ball', labelPl: 'Piłka treningowa', labelEn: 'Training ball', short: 'BAL-T' },
+      { value: 'match-ball', labelPl: 'Piłka meczowa', labelEn: 'Match ball', short: 'BAL-M' },
+      { value: 'shin-guards', labelPl: 'Ochraniacze', labelEn: 'Shin guards', short: 'PRO' },
+      { value: 'club-towel', labelPl: 'Ręcznik klubowy szybkoschnący', labelEn: 'Quick-dry club towel', short: 'TWL' }
     ]
   }
 ];
+
+const STEP_SEQUENCE = ['product', 'sleeve', 'collar', 'colors', 'material', 'branding', 'details'];
+const STEP_LABEL_KEYS = {
+  product: 'step-product',
+  sleeve: 'step-sleeves',
+  collar: 'step-collar',
+  colors: 'step-colors',
+  material: 'step-material',
+  branding: 'step-branding',
+  details: 'step-details'
+};
+
+const PRODUCT_STEP_RULES = {
+  'home-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  'away-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  'training-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  'training-top': ['sleeve', 'colors', 'material', 'branding'],
+  'training-hoodie': ['sleeve', 'colors', 'material', 'branding'],
+  'training-pants': ['colors', 'material', 'branding'],
+  'polo-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  'training-shorts': ['colors', 'material', 'branding'],
+  'home-shorts': ['colors', 'material', 'branding'],
+  'away-shorts': ['colors', 'material', 'branding'],
+  'match-gaiters': ['colors', 'branding'],
+  'goalkeeper-gaiters': ['colors', 'branding'],
+  'anti-slip-socks': ['colors', 'branding'],
+  'goalkeeper-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  'goalkeeper-shirt-long': ['sleeve', 'collar', 'colors', 'material', 'branding'],
+  backpack: ['colors', 'branding'],
+  'duffel-bag': ['colors', 'branding'],
+  'gym-sack': ['colors', 'branding'],
+  'training-ball': ['colors', 'branding'],
+  'match-ball': ['colors', 'branding'],
+  'shin-guards': ['colors', 'branding'],
+  'club-towel': ['colors', 'branding']
+};
 
 const COLOR_PRESETS = [
   '#0f3d2e','#000000','#ffffff','#1a237e','#b71c1c','#f9a825','#1565c0','#e65100','#4a148c','#00695c'
 ];
 
 let step = 0;
-const TOTAL = 7;
 
 let config = {
   products: [],
@@ -76,19 +134,45 @@ let config = {
   name: '', email: '', phone: '', team: ''
 };
 
-const REQUIRED_STEPS = [1, 2, 4, 5];
-const REQUIRED_FIELDS = { 1: 'sleeve', 2: 'collar', 4: 'material', 5: 'branding' };
+const REQUIRED_FIELDS = {
+  sleeve: 'sleeve',
+  collar: 'collar',
+  material: 'material',
+  branding: 'branding'
+};
 
-function getStepNames() {
-  return [
-    t('step-product'),
-    t('step-sleeves'),
-    t('step-collar'),
-    t('step-colors'),
-    t('step-material'),
-    t('step-branding'),
-    t('step-details')
-  ];
+function getActiveStepIds() {
+  if (config.products.length === 0) return STEP_SEQUENCE;
+
+  const enabled = new Set(['product', 'details']);
+  config.products.forEach(product => {
+    (PRODUCT_STEP_RULES[product] || ['colors', 'branding']).forEach(stepId => enabled.add(stepId));
+  });
+
+  return STEP_SEQUENCE.filter(stepId => enabled.has(stepId));
+}
+
+function normalizeStep() {
+  const activeSteps = getActiveStepIds();
+  if (step >= activeSteps.length) step = activeSteps.length - 1;
+  if (step < 0) step = 0;
+  return activeSteps;
+}
+
+function currentStepId() {
+  const activeSteps = normalizeStep();
+  return activeSteps[step];
+}
+
+function isStepActive(stepId) {
+  return getActiveStepIds().includes(stepId);
+}
+
+function syncConfigToActiveSteps() {
+  const activeSteps = getActiveStepIds();
+  Object.entries(REQUIRED_FIELDS).forEach(([stepId, field]) => {
+    if (!activeSteps.includes(stepId)) config[field] = '';
+  });
 }
 
 function jumpToStep(i) {
@@ -96,16 +180,18 @@ function jumpToStep(i) {
 }
 
 function updateProgress() {
-  const pct = ((step + 1) / TOTAL * 100).toFixed(0);
+  const activeSteps = normalizeStep();
+  const total = activeSteps.length;
+  const currentId = activeSteps[step];
+  const pct = ((step + 1) / total * 100).toFixed(0);
   document.getElementById('progressFill').style.width = pct + '%';
-  const names = getStepNames();
-  document.getElementById('stepLabel').textContent = t('step-label') + ' ' + (step+1) + ' / ' + TOTAL;
-  document.getElementById('stepName').textContent = names[step];
+  document.getElementById('stepLabel').textContent = t('step-label') + ' ' + (step+1) + ' / ' + total;
+  document.getElementById('stepName').textContent = t(STEP_LABEL_KEYS[currentId]);
 
   const prog = document.querySelector('.progress-bar-wrapper');
   if (prog) {
     prog.setAttribute('aria-valuenow', step+1);
-    prog.setAttribute('aria-valuemax', TOTAL);
+    prog.setAttribute('aria-valuemax', total);
   }
 
   const backBtn = document.getElementById('btnBack');
@@ -114,7 +200,7 @@ function updateProgress() {
   const nextLabel = document.getElementById('nextLabel');
   const nextBtn = document.getElementById('btnNext');
   const nextIcon = nextBtn ? nextBtn.querySelector('svg') : null;
-  if (step === TOTAL - 1) {
+  if (currentId === 'details') {
     nextLabel.textContent = t('btn-submit') || 'OTRZYMAJ WYCENĘ I PROJEKT';
     if (nextIcon) nextIcon.innerHTML = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>';
   } else {
@@ -191,6 +277,7 @@ function toggleProduct(value) {
   } else {
     config.products.splice(idx, 1);
   }
+  syncConfigToActiveSteps();
 
   const grid = document.getElementById('productGroups');
   if (!grid) { renderStep(); return; }
@@ -207,6 +294,7 @@ function toggleProduct(value) {
         : '';
     }
   });
+  updateProgress();
 }
 
 function selectOpt(field, value) {
@@ -236,40 +324,48 @@ function renderStep() {
 
   let html = '';
 
-  switch(step) {
-    case 0:
+  switch(currentStepId()) {
+    case 'product':
       html = `
         <h2 class="step-title">${pl?'Typ produktu':'Product type'}</h2>
         <p class="step-sub">${pl?'Wybierz jeden lub kilka elementów z pełnej oferty dla klubu.':'Choose one or multiple items from the full club offer.'}</p>
         <div id="productGroups" class="product-groups">
           ${renderProductGroups()}
+        </div>
+        <div class="material-note" style="margin-top: 28px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ${pl ? '<strong>Piłki:</strong> Przy zamówieniu 200 sztuk możliwość personalizacji wzoru piłki pod klub.' : '<strong>Balls:</strong> When ordering 200 units, customization of the ball design for your club is available.'}
+        </div>
+        <div class="material-note" style="margin-top: 12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ${pl ? '<strong>Ręcznik klubowy:</strong> Szybkoschnący ręcznik klubowy z możliwością własnego projektu i logo klubu.' : '<strong>Club towel:</strong> Quick-dry club towel with custom design and club logo option.'}
         </div>`;
       break;
 
-    case 1:
+    case 'sleeve':
       html = `
         <h2 class="step-title">${pl?'Rękawy':'Sleeves'}</h2>
         <p class="step-sub">${pl?'Wybierz typ rękawa':'Select sleeve type'}</p>
         <div class="options-grid options-grid-sleeve">
-          ${optCard('raglan', 'Raglan', IMGS.raglan, 'sleeve')}
-          ${optCard('setin', pl?'Wszywany':'Set-in', IMGS.setin, 'sleeve')}
+          ${optCard('standard', pl?'Standardowe rękawy':'Standard sleeves', IMGS.setin, 'sleeve')}
+          ${optCard('raglan', pl?'Rękawy raglanowe':'Raglan sleeves', IMGS.raglan, 'sleeve')}
         </div>`;
       break;
 
-    case 2:
+    case 'collar':
       html = `
         <h2 class="step-title">${pl?'Kołnierz':'Collar'}</h2>
         <p class="step-sub">${pl?'Wybierz typ kołnierza':'Select collar type'}</p>
         <div class="options-grid options-grid-collar">
-          ${optCard('crewneck',      pl?'Okrągły':'Crewneck',               IMGS.round, 'collar')}
+          ${optCard('crewneck',      pl?'Crewneck':'Crewneck',               IMGS.round, 'collar')}
           ${optCard('vneck',         'V-Neck',                               IMGS.vneck, 'collar')}
-          ${optCard('vneck-overlap', pl?'V-Neck zakładkowy':'Overlap V-Neck', IMGS.vneck, 'collar')}
-          ${optCard('polo',          'Polo',                                 IMGS.polo,  'collar', pl?'+ dopłata':'+ extra')}
-          ${optCard('vneck-polo',    'V-Neck Polo',                          IMGS.polo,  'collar', pl?'+ dopłata':'+ extra')}
+          ${optCard('vneck-overlap', pl?'Overlap V-Neck':'Overlap V-Neck', IMGS.vneck, 'collar')}
+          ${optCard('polo-standard', pl?'Polo Standard':'Polo Standard',                                 IMGS.polo,  'collar', pl?'+ dopłata':'+ extra')}
+          ${optCard('vneck-polo',    'V-Neck Polo',                          IMGS.vneckpolo,  'collar', pl?'+ dopłata':'+ extra')}
         </div>`;
       break;
 
-    case 3:
+    case 'colors':
       html = `
         <h2 class="step-title">${pl?'Kolory':'Colors'}</h2>
         <p class="step-sub">${pl?'Wybierz kolory swojego stroju lub wyposażenia':'Choose colors for your kit or equipment'}</p>
@@ -320,21 +416,25 @@ function renderStep() {
         </div>`;
       break;
 
-    case 4:
+    case 'material':
       html = `
         <h2 class="step-title">${pl?'Materiał':'Material'}</h2>
         <p class="step-sub">${pl?'Wybierz rodzaj materiału':'Select fabric type'}</p>
         <div class="options-grid options-grid-material">
-          ${optCard('standard', pl?'Standardowy':'Standard', IMGS.polyester, 'material')}
-          ${optCard('rib', pl?'Ściągacz (Rib)':'Rib Knit', IMGS.mesh, 'material')}
+          ${optCard('standard', pl?'Standard poliester':'Standard polyester', IMGS.polyester, 'material')}
+          ${optCard('nxpro', 'NXPRO', IMGS.mesh, 'material', pl?'profesjonalny':'professional')}
         </div>
         <div class="material-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          ${pl ? 'Ściągacz stosowany jest szczególnie na rękawach i kołnierzach polo.' : 'Rib knit is especially used on sleeves and polo collars.'}
+          ${pl ? '<strong>Standard poliester</strong> — świetny wybór dla każdego klubu.' : '<strong>Standard polyester</strong> — great choice for any club.'}
+        </div>
+        <div class="material-note" style="margin-top: 12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ${pl ? '<strong>NXPRO</strong> — najbardziej popularny wybór wśród profesjonalnych klubów.' : '<strong>NXPRO</strong> — the most popular choice among professional clubs.'}
         </div>`;
       break;
 
-    case 5:
+    case 'branding':
       html = `
         <h2 class="step-title">${pl?'Zdobienia i wykończenie':'Decorations and finish'}</h2>
         <p class="step-sub">${pl?'Wybierz sposób wykonania logotypów, numerów i sponsorów. Każda opcja wpływa na cenę.':'Choose how logos, numbers and sponsors are made. Each option affects the price.'}</p>
@@ -366,7 +466,7 @@ function renderStep() {
         </div>`;
       break;
 
-    case 6:
+    case 'details':
       html = `
         <h2 class="step-title">${pl?'Wycena i projekt':'Quote and design'}</h2>
         <p class="step-sub">${pl?'Na podstawie konfiguracji przygotujemy indywidualną wycenę i projekt.':'Based on the configuration, we will prepare an individual quote and design.'}</p>
@@ -418,15 +518,16 @@ function renderStep() {
 function summaryRows() {
   const pl = getLang() === 'pl';
   const products = config.products.map(product => configLabel('products', product)).join(', ');
-  return [
-    [pl?'Produkty':'Products', products],
-    [pl?'Rękawy':'Sleeves', configLabel('sleeve', config.sleeve)],
-    [pl?'Kołnierz':'Collar', configLabel('collar', config.collar)],
-    [pl?'Kolory':'Colors', `${config.primaryColor} / ${config.secondaryColor}`],
-    [pl?'Materiał':'Material', configLabel('material', config.material)],
-    [pl?'Zdobienia':'Decoration', configLabel('branding', config.branding)],
-    [pl?'Ilość':'Quantity', config.quantity]
-  ].filter(([,v]) => v && v !== '—');
+  const rows = [[pl?'Produkty':'Products', products]];
+
+  if (isStepActive('sleeve')) rows.push([pl?'Rękawy':'Sleeves', configLabel('sleeve', config.sleeve)]);
+  if (isStepActive('collar')) rows.push([pl?'Kołnierz':'Collar', configLabel('collar', config.collar)]);
+  if (isStepActive('colors')) rows.push([pl?'Kolory':'Colors', `${config.primaryColor} / ${config.secondaryColor}`]);
+  if (isStepActive('material')) rows.push([pl?'Materiał':'Material', configLabel('material', config.material)]);
+  if (isStepActive('branding')) rows.push([pl?'Zdobienia':'Decoration', configLabel('branding', config.branding)]);
+
+  rows.push([pl?'Ilość':'Quantity', config.quantity]);
+  return rows.filter(([,v]) => v && v !== '—');
 }
 
 function isDark(hex) {
@@ -494,19 +595,19 @@ function configLabel(group, value) {
   const labels = {
     products: productLabels,
     sleeve: {
-      raglan: 'Raglan',
-      setin: pl ? 'Wszywany' : 'Set-in'
+      standard: pl ? 'Standardowe rękawy' : 'Standard sleeves',
+      raglan: pl ? 'Rękawy raglanowe' : 'Raglan sleeves'
     },
     collar: {
-      crewneck: pl ? 'Okrągły' : 'Crewneck',
+      crewneck: pl ? 'Okrągły (Crewneck)' : 'Crewneck',
       vneck: 'V-Neck',
       'vneck-overlap': pl ? 'V-Neck zakładkowy' : 'Overlap V-Neck',
-      polo: 'Polo',
+      'polo-standard': 'Polo Standard',
       'vneck-polo': 'V-Neck Polo'
     },
     material: {
-      standard: pl ? 'Standardowy' : 'Standard',
-      rib: pl ? 'Ściągacz (Rib)' : 'Rib Knit'
+      standard: pl ? 'Standard poliester' : 'Standard polyester',
+      nxpro: 'NXPRO'
     },
     branding: {
       sublimation: pl ? 'Sublimacja (w cenie)' : 'Sublimation (included)',
@@ -528,14 +629,14 @@ function showConfigSuccess(submission) {
   const pl = getLang() === 'pl';
   const rows = [
     [pl ? 'Produkty' : 'Products', submission.products],
-    [pl ? 'Rękawy' : 'Sleeves', configLabel('sleeve', submission.sleeve)],
-    [pl ? 'Kołnierz' : 'Collar', configLabel('collar', submission.collar)],
-    [pl ? 'Materiał' : 'Material', configLabel('material', submission.material)],
-    [pl ? 'Zdobienia' : 'Decoration', configLabel('branding', submission.branding)],
-    [pl ? 'Kolory' : 'Colors', `${submission.primaryColor} / ${submission.secondaryColor}`],
+    isStepActive('sleeve') ? [pl ? 'Rękawy' : 'Sleeves', configLabel('sleeve', submission.sleeve)] : null,
+    isStepActive('collar') ? [pl ? 'Kołnierz' : 'Collar', configLabel('collar', submission.collar)] : null,
+    isStepActive('material') ? [pl ? 'Materiał' : 'Material', configLabel('material', submission.material)] : null,
+    isStepActive('branding') ? [pl ? 'Zdobienia' : 'Decoration', configLabel('branding', submission.branding)] : null,
+    isStepActive('colors') ? [pl ? 'Kolory' : 'Colors', `${submission.primaryColor} / ${submission.secondaryColor}`] : null,
     [pl ? 'Ilość' : 'Quantity', submission.quantity],
     [pl ? 'Kontakt' : 'Contact', `${submission.name} · ${submission.email}`]
-  ].filter(([, value]) => value);
+  ].filter(Boolean).filter(([, value]) => value && value !== '—');
 
   overlay.innerHTML = `
     <div class="config-success-panel">
@@ -578,7 +679,9 @@ function configBack() {
 }
 
 async function configNext() {
-  if (step === 0 && config.products.length === 0) {
+  const stepId = currentStepId();
+
+  if (stepId === 'product' && config.products.length === 0) {
     const hint = document.getElementById('validationHint');
     if (hint) hint.textContent = t('select-required');
     const btn = document.getElementById('btnNext');
@@ -587,8 +690,8 @@ async function configNext() {
     return;
   }
 
-  if (REQUIRED_STEPS.includes(step)) {
-    const field = REQUIRED_FIELDS[step];
+  if (REQUIRED_FIELDS[stepId]) {
+    const field = REQUIRED_FIELDS[stepId];
     if (!config[field]) {
       const hint = document.getElementById('validationHint');
       if (hint) hint.textContent = t('select-required');
@@ -599,7 +702,7 @@ async function configNext() {
     }
   }
 
-  if (step === TOTAL - 1) {
+  if (stepId === 'details') {
     if (!config.name.trim() || !config.email.trim()) {
       showToast(getLang()==='pl' ? 'Podaj imię i adres e-mail.' : 'Please fill in name and email.', true);
       return;
@@ -612,6 +715,7 @@ async function configNext() {
     const btn = document.getElementById('btnNext');
     btn.disabled = true;
     btn.classList.add('btn-loading');
+    syncConfigToActiveSteps();
 
     const productLabels = config.products.map(product => configLabel('products', product)).join(', ');
     const sub = {
