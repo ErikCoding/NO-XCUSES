@@ -3,6 +3,7 @@ const IMGS = {
   raglan: 'raglan_sleeves.png',
   setin: 'standard_sleeves.png',
   vneck: 'v-neck.png',
+  overlapvneck: 'overlap-v-neck.png',
   round: 'crewneck.png',
   polo: 'polo_standard.png',
   vneckpolo: 'v-neck_polo.png',
@@ -94,26 +95,26 @@ const STEP_LABEL_KEYS = {
 const PRODUCT_STEP_RULES = {
   'home-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
   'away-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
-  'training-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
-  'training-top': ['sleeve', 'colors', 'material', 'branding'],
-  'training-hoodie': ['sleeve', 'colors', 'material', 'branding'],
+  'training-shirt': ['colors', 'branding'],
+  'training-top': ['colors', 'branding'],
+  'training-hoodie': ['colors', 'branding'],
   'training-pants': ['colors', 'material', 'branding'],
-  'polo-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
-  'training-shorts': ['colors', 'material', 'branding'],
-  'home-shorts': ['colors', 'material', 'branding'],
-  'away-shorts': ['colors', 'material', 'branding'],
-  'match-gaiters': ['colors', 'branding'],
-  'goalkeeper-gaiters': ['colors', 'branding'],
-  'anti-slip-socks': ['colors', 'branding'],
+  'polo-shirt': ['colors', 'branding'],
+  'training-shorts': ['colors'],
+  'home-shorts': ['colors'],
+  'away-shorts': ['colors'],
+  'match-gaiters': ['colors'],
+  'goalkeeper-gaiters': ['colors'],
+  'anti-slip-socks': ['colors'],
   'goalkeeper-shirt': ['sleeve', 'collar', 'colors', 'material', 'branding'],
   'goalkeeper-shirt-long': ['sleeve', 'collar', 'colors', 'material', 'branding'],
-  backpack: ['colors', 'branding'],
-  'duffel-bag': ['colors', 'branding'],
-  'gym-sack': ['colors', 'branding'],
-  'training-ball': ['colors', 'branding'],
-  'match-ball': ['colors', 'branding'],
-  'shin-guards': ['colors', 'branding'],
-  'club-towel': ['colors', 'branding']
+  backpack: ['colors'],
+  'duffel-bag': ['colors'],
+  'gym-sack': ['colors'],
+  'training-ball': ['colors'],
+  'match-ball': ['colors'],
+  'shin-guards': ['colors'],
+  'club-towel': ['colors']
 };
 
 const COLOR_PRESETS = [
@@ -359,7 +360,7 @@ function renderStep() {
         <div class="options-grid options-grid-collar">
           ${optCard('crewneck',      pl?'Crewneck':'Crewneck',               IMGS.round, 'collar')}
           ${optCard('vneck',         'V-Neck',                               IMGS.vneck, 'collar')}
-          ${optCard('vneck-overlap', pl?'Overlap V-Neck':'Overlap V-Neck', IMGS.vneck, 'collar')}
+          ${optCard('vneck-overlap', pl?'Overlap V-Neck':'Overlap V-Neck', IMGS.overlapvneck, 'collar')}
           ${optCard('polo-standard', pl?'Polo Standard':'Polo Standard',                                 IMGS.polo,  'collar', pl?'+ dopłata':'+ extra')}
           ${optCard('vneck-polo',    'V-Neck Polo',                          IMGS.vneckpolo,  'collar', pl?'+ dopłata':'+ extra')}
         </div>`;
@@ -422,7 +423,7 @@ function renderStep() {
         <p class="step-sub">${pl?'Wybierz rodzaj materiału':'Select fabric type'}</p>
         <div class="options-grid options-grid-material">
           ${optCard('standard', pl?'Standard poliester':'Standard polyester', IMGS.polyester, 'material')}
-          ${optCard('nxpro', 'NXPRO', IMGS.mesh, 'material', pl?'profesjonalny':'professional')}
+          ${optCard('nxpro', 'JACQUARD Premium <br> "NX PRO"', IMGS.mesh, 'material', pl?'profesjonalny':'professional')}
         </div>
         <div class="material-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -430,7 +431,7 @@ function renderStep() {
         </div>
         <div class="material-note" style="margin-top: 12px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          ${pl ? '<strong>NXPRO</strong> — najbardziej popularny wybór wśród profesjonalnych klubów.' : '<strong>NXPRO</strong> — the most popular choice among professional clubs.'}
+          ${pl ? '<strong>JACQUARD Premium "NX PRO"</strong> — najbardziej popularny wybór wśród profesjonalnych klubów.' : '<strong>JACQUARD Premium "NX PRO"</strong> — the most popular choice among professional clubs.'}
         </div>`;
       break;
 
@@ -607,7 +608,7 @@ function configLabel(group, value) {
     },
     material: {
       standard: pl ? 'Standard poliester' : 'Standard polyester',
-      nxpro: 'NXPRO'
+      nxpro: 'JACQUARD Premium "NX PRO"'
     },
     branding: {
       sublimation: pl ? 'Sublimacja (w cenie)' : 'Sublimation (included)',

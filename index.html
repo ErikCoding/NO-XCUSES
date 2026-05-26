@@ -3,39 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07100c" />
+  <meta name="format-detection" content="telephone=no" />
 
   <title>NO XCUSES | Darmowy projekt stroju dla Twojego klubu</title>
   <meta name="description" content="NO XCUSES przygotuje darmowy projekt stroju dla Twojego klubu. Indywidualne projekty, pełna personalizacja, stroje meczowe i wyposażenie dla drużyn." />
   <meta name="keywords" content="darmowy projekt stroju, stroje piłkarskie dla klubów, odzież sportowa na zamówienie, stroje meczowe, NOXCUSES" />
   <meta name="author" content="NO XCUSES" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="./" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://noxcuses.pl/" />
+  <link rel="preconnect" href="https://media.base44.com" crossorigin />
+  <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
 
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://noxcuses.pl/" />
+  <meta property="og:site_name" content="NO XCUSES" />
   <meta property="og:title" content="NO XCUSES | Darmowy projekt stroju dla klubu" />
   <meta property="og:description" content="Zostaw kontakt, a przygotujemy indywidualny projekt stroju dla Twojej drużyny." />
-  <meta property="og:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
+  <meta property="og:image" content="https://noxcuses.pl/proces_section_bg.png" />
+  <meta property="og:image:width" content="1774" />
+  <meta property="og:image:height" content="887" />
   <meta property="og:locale" content="pl_PL" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="NO XCUSES | Darmowy projekt stroju dla klubu" />
   <meta name="twitter:description" content="Indywidualne projekty + pełna personalizacja dla klubów piłkarskich." />
-  <meta name="twitter:image" content="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png" />
+  <meta name="twitter:image" content="https://noxcuses.pl/proces_section_bg.png" />
 
   <link rel="stylesheet" href="styles.css" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "NOXCUSES",
-    "description": "Custom sportswear manufacturer for clubs and teams",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+48-794-100-353",
-      "email": "noxcuses.kontakt@gmail.com",
-      "contactType": "customer service"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://noxcuses.pl/#organization",
+        "name": "NO XCUSES",
+        "alternateName": "NOXCUSES",
+        "url": "https://noxcuses.pl/",
+        "logo": "https://noxcuses.pl/logo-nx-black.png",
+        "description": "Indywidualne projekty i personalizowana odzież sportowa dla klubów oraz drużyn.",
+        "email": "kontakt@noxcuses.pl",
+        "telephone": "+48 794 100 353",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+48 794 100 353",
+          "email": "kontakt@noxcuses.pl",
+          "contactType": "customer service",
+          "areaServed": "PL",
+          "availableLanguage": ["pl", "en"]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://noxcuses.pl/#website",
+        "url": "https://noxcuses.pl/",
+        "name": "NO XCUSES",
+        "publisher": { "@id": "https://noxcuses.pl/#organization" },
+        "inLanguage": "pl-PL"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://noxcuses.pl/#webpage",
+        "url": "https://noxcuses.pl/",
+        "name": "NO XCUSES | Darmowy projekt stroju dla Twojego klubu",
+        "isPartOf": { "@id": "https://noxcuses.pl/#website" },
+        "about": { "@id": "https://noxcuses.pl/#organization" },
+        "inLanguage": "pl-PL"
+      }
+    ]
   }
   </script>
 </head>
@@ -77,6 +114,8 @@
       src="https://media.base44.com/images/public/69ee84b6a6a71488ecd2ae26/c185014a7_generated_317985d5.png"
       alt="Zawodnik w koszulce NOXCUSES"
       loading="eager"
+      fetchpriority="high"
+      decoding="async"
       width="1920" height="1080"
     />
   </div>
@@ -85,7 +124,7 @@
     <div class="hero-copy">
       <h1 class="hero-title" id="heroTitle">Darmowy projekt stroju dla Twojego klubu</h1>
       <p class="hero-sub" id="heroSub">Indywidualne projekty + pełna personalizacja</p>
-      <p class="hero-motto" data-pl="Winning has no excuses" data-en="Winning has no excuses">Winning has no excuses</p>
+      <p class="hero-motto" data-pl="NO EXCUSES NO LIMITS" data-en="NO EXCUSES NO LIMITS">NO EXCUSES NO LIMITS</p>
       <div class="hero-action-row">
         <a href="#homeContact" class="btn-primary" id="heroCta" aria-label="Przejdź do formularza i otrzymaj darmowy projekt">
           <span data-pl="Otrzymaj darmowy projekt" data-en="Get a free design">Otrzymaj darmowy projekt</span>
@@ -161,10 +200,10 @@
     <p class="section-kicker centered" data-pl="Inspiracje" data-en="Inspiration">Inspiracje</p>
     <h2 class="section-title" id="galleryTitle">Projekty</h2>
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="AP MERCHEL KOLBUDY (4).png" alt="Koszulka sportowa NOXCUSES — projekt dla drużyny" loading="lazy" /></div>
-      <div class="gallery-item"><img src="AP MERCHEL KOLBUDY 2 (4).png" alt="Spodenki sportowe NOXCUSES — projekt klubowy" loading="lazy" /></div>
-      <div class="gallery-item"><img src="MGLKS Tytan Mrocza (8).png" alt="Komplet sportowy NOXCUSES dla klubu piłkarskiego" loading="lazy" /></div>
-      <div class="gallery-item"><img src="PROJEKT 1.png" alt="Strój sportowy NOXCUSES — personalizowany projekt" loading="lazy" /></div>
+      <div class="gallery-item"><img src="assets/project-ap-merchel-kolbudy.jpg" data-full-src="AP MERCHEL KOLBUDY (4).png" alt="Koszulka sportowa NOXCUSES — projekt dla drużyny" loading="lazy" decoding="async" width="1000" height="707" /></div>
+      <div class="gallery-item"><img src="assets/project-ap-merchel-kolbudy-2.jpg" data-full-src="AP MERCHEL KOLBUDY 2 (4).png" alt="Spodenki sportowe NOXCUSES — projekt klubowy" loading="lazy" decoding="async" width="1000" height="707" /></div>
+      <div class="gallery-item"><img src="assets/project-mglks-tytan-mrocza.jpg" data-full-src="MGLKS Tytan Mrocza (8).png" alt="Komplet sportowy NOXCUSES dla klubu piłkarskiego" loading="lazy" decoding="async" width="1000" height="707" /></div>
+      <div class="gallery-item"><img src="assets/project-1.jpg" data-full-src="PROJEKT 1.png" alt="Strój sportowy NOXCUSES — personalizowany projekt" loading="lazy" decoding="async" width="1000" height="707" /></div>
     </div>
     <div class="gallery-more">
       <a href="projekty.html" id="galleryMore" aria-label="Zobacz więcej projektów NOXCUSES">Zobacz więcej projektów</a>

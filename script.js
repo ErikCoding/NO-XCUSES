@@ -280,10 +280,9 @@ function initScrollReveals(root) {
 
   if (!targets.length) return;
 
-  targets.forEach((el, index) => {
+  targets.forEach(el => {
     if (el.classList.contains('anim-reveal') || el.classList.contains('is-visible')) return;
     el.classList.add('anim-reveal');
-    el.style.setProperty('--reveal-delay', `${Math.min(index % 6, 5) * 55}ms`);
   });
 
   if (prefersReducedMotion || !('IntersectionObserver' in window)) {
@@ -291,12 +290,36 @@ function initScrollReveals(root) {
     return;
   }
 
+  let revealQueue = [];
+  let revealFrame = null;
+
+  const flushRevealQueue = () => {
+    const batch = revealQueue
+      .filter(el => !el.classList.contains('is-visible'))
+      .sort((a, b) => {
+        const rectA = a.getBoundingClientRect();
+        const rectB = b.getBoundingClientRect();
+        return (rectA.top - rectB.top) || (rectA.left - rectB.left);
+      });
+
+    revealQueue = [];
+    revealFrame = null;
+
+    batch.forEach((el, index) => {
+      el.style.setProperty('--reveal-delay', `${Math.min(index, 7) * 55}ms`);
+      el.classList.add('is-visible');
+    });
+  };
+
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
       obs.unobserve(entry.target);
+      revealQueue.push(entry.target);
     });
+    if (revealQueue.length && !revealFrame) {
+      revealFrame = window.requestAnimationFrame(flushRevealQueue);
+    }
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
   targets.forEach(el => observer.observe(el));
@@ -312,11 +335,112 @@ function revealConfigStep(root) {
   requestAnimationFrame(() => targets.forEach(el => el.classList.add('is-visible')));
 }
 
+function initProjectLightbox() {
+  const items = Array.from(document.querySelectorAll('.portfolio-item, .gallery-item'))
+    .map(item => ({ item, img: item.querySelector('img') }))
+    .filter(entry => entry.img);
+
+  if (!items.length) return;
+
+  const photos = items.map(({ img }) => ({
+    src: img.dataset.fullSrc || img.currentSrc || img.src,
+    alt: img.alt || ''
+  }));
+
+  const lightbox = document.createElement('div');
+  lightbox.className = 'project-lightbox';
+  lightbox.setAttribute('role', 'dialog');
+  lightbox.setAttribute('aria-modal', 'true');
+  lightbox.setAttribute('aria-label', 'Podgląd projektu');
+  lightbox.hidden = true;
+  lightbox.innerHTML = `
+    <button class="project-lightbox-close" type="button" aria-label="Zamknij podgląd">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <button class="project-lightbox-nav project-lightbox-prev" type="button" aria-label="Poprzednie zdjęcie">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <figure class="project-lightbox-stage">
+      <img class="project-lightbox-img" alt="" />
+      <figcaption class="project-lightbox-caption"></figcaption>
+    </figure>
+    <button class="project-lightbox-nav project-lightbox-next" type="button" aria-label="Następne zdjęcie">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+    <div class="project-lightbox-count" aria-live="polite"></div>
+  `;
+  document.body.appendChild(lightbox);
+
+  const imageEl = lightbox.querySelector('.project-lightbox-img');
+  const captionEl = lightbox.querySelector('.project-lightbox-caption');
+  const countEl = lightbox.querySelector('.project-lightbox-count');
+  const closeBtn = lightbox.querySelector('.project-lightbox-close');
+  const prevBtn = lightbox.querySelector('.project-lightbox-prev');
+  const nextBtn = lightbox.querySelector('.project-lightbox-next');
+  let activeIndex = 0;
+  let lastFocus = null;
+  let previousOverflow = '';
+
+  function showPhoto(index) {
+    activeIndex = (index + photos.length) % photos.length;
+    const photo = photos[activeIndex];
+    imageEl.src = photo.src;
+    imageEl.alt = photo.alt;
+    captionEl.textContent = photo.alt;
+    countEl.textContent = `${activeIndex + 1} / ${photos.length}`;
+  }
+
+  function openLightbox(index) {
+    lastFocus = document.activeElement;
+    previousOverflow = document.body.style.overflow;
+    showPhoto(index);
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.hidden = true;
+    imageEl.removeAttribute('src');
+    document.body.style.overflow = previousOverflow;
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  }
+
+  function showPrevious() { showPhoto(activeIndex - 1); }
+  function showNext() { showPhoto(activeIndex + 1); }
+
+  items.forEach(({ item, img }, index) => {
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-label', img.alt ? `Otwórz projekt: ${img.alt}` : 'Otwórz projekt');
+    item.addEventListener('click', () => openLightbox(index));
+    item.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openLightbox(index);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+  prevBtn.addEventListener('click', showPrevious);
+  nextBtn.addEventListener('click', showNext);
+  lightbox.addEventListener('click', event => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', event => {
+    if (lightbox.hidden) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') showPrevious();
+    if (event.key === 'ArrowRight') showNext();
+  });
+}
+
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
   applyLang();
   initHeroParallax();
   initScrollReveals(document);
+  initProjectLightbox();
 
   // NEW: Close mobile menu on outside click
   document.addEventListener('click', (e) => {
