@@ -1184,7 +1184,7 @@ footer {
 
 .config-content {
   flex: 1; max-width: 1120px; margin: 0 auto; width: 100%;
-  padding: 50px 32px;
+  padding: 50px 32px 104px;
 }
 .step-title {
   font-size: 2rem; font-weight: 900; text-transform: uppercase;
@@ -1662,10 +1662,12 @@ footer {
 
 /* Command bar */
 .config-bar {
-  position: sticky; bottom: 0; background: rgba(255,255,255,0.94);
+  position: sticky; bottom: 0; z-index: 80;
+  background: rgba(255,255,255,0.98);
   backdrop-filter: blur(14px);
   border-top: 1px solid var(--border); padding: 16px 32px;
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  box-shadow: 0 -14px 34px rgba(7,16,12,0.08);
 }
 .btn-back-config {
   display: flex; align-items: center; gap: 8px;
@@ -1987,8 +1989,14 @@ footer {
   .pricing-row { grid-template-columns: 1fr; gap: 8px; }
   .pricing-price { justify-self: start; }
   .progress-bar-wrapper { padding: 10px 16px; }
-  .config-content { padding: 28px 16px; }
-  .config-bar { padding: 12px 16px; gap: 8px; }
+  .config-content { padding: 28px 16px 118px; }
+  .config-bar {
+    z-index: 120;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    gap: 8px;
+    background: rgba(255,255,255,0.99);
+    box-shadow: 0 -18px 36px rgba(7,16,12,0.12);
+  }
   .config-success-panel {
     grid-template-columns: 1fr;
     align-items: start;
@@ -2052,6 +2060,17 @@ footer {
   .success-title { font-size: 2.45rem; }
   .success-summary { margin: 0 -2px; }
   .config-bar { flex-wrap: wrap; }
+  .btn-back-config,
+  .btn-next-config {
+    min-height: 46px;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-next-config {
+    min-width: 132px;
+    justify-content: center;
+    padding: 12px 22px;
+  }
   .config-validation-hint { order: -1; width: 100%; text-align: left; }
   .admin-login-box { padding: 36px 24px; }
 }
