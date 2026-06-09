@@ -28,7 +28,7 @@ const PRODUCT_IMAGES = {
   'away-shirt': productAsset('product-away-shirt.png'),
   'training-shirt': productAsset('product-training-shirt.png'),
   'training-top': productAsset('product-training-top.png'),
-  'training-hoodie': '',
+  'training-hoodie': productAsset('bluza-treningowa.png'),
   'training-pants': productAsset('product-training-pants.png'),
   'polo-shirt': productAsset('product-polo-shirt.png'),
   'training-shorts': productAsset('product-training-shorts.png'),
@@ -114,6 +114,26 @@ const PRODUCT_GROUPS = [
     ]
   }
 ];
+
+const PRODUCT_AVAILABILITY = {
+  // Set a product to false to hide it from the first configurator step without deleting its card.
+  'anti-slip-socks': false,
+  'duffel-bag': false,
+  'gym-sack': false
+};
+
+function isProductAvailable(value) {
+  return PRODUCT_AVAILABILITY[value] !== false;
+}
+
+function getAvailableProductGroups() {
+  return PRODUCT_GROUPS
+    .map(group => ({
+      ...group,
+      items: group.items.filter(item => isProductAvailable(item.value))
+    }))
+    .filter(group => group.items.length > 0);
+}
 
 const STEP_SEQUENCE = ['product', 'sleeve', 'collar', 'colors', 'material', 'branding', 'details'];
 const CONFIG_STEP_VISIBILITY = {
@@ -215,6 +235,8 @@ function isStepActive(stepId) {
 }
 
 function syncConfigToActiveSteps() {
+  config.products = config.products.filter(isProductAvailable);
+
   const activeSteps = getActiveStepIds();
   Object.entries(REQUIRED_FIELDS).forEach(([stepId, field]) => {
     if (!activeSteps.includes(stepId)) config[field] = '';
@@ -308,7 +330,7 @@ function productCard(item, groupKey) {
 
 function renderProductGroups() {
   const pl = getLang() === 'pl';
-  return PRODUCT_GROUPS.map(group => `
+  return getAvailableProductGroups().map(group => `
     <div class="product-group product-group-${group.key}">
       <h3 class="product-group-title">${pl ? group.titlePl : group.titleEn}</h3>
       <div class="options-grid product-options-grid${group.key === 'sets' ? ' product-options-grid-set' : ''}">
@@ -319,6 +341,8 @@ function renderProductGroups() {
 }
 
 function toggleProduct(value) {
+  if (!isProductAvailable(value)) return;
+
   const idx = config.products.indexOf(value);
   if (idx === -1) {
     config.products.push(value);
